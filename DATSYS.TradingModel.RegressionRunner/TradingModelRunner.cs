@@ -25,11 +25,12 @@ namespace DATSYS.TradingModel.RegressionRunner
         private string m_instrumentCode;
         private DateTime m_RegressionEndDate;
 
+        private BarCompleted CallbackBarCompleted;
         private EntrySignalReceived CallbackOnEntrySignalReceived;
         private TradePositionCloseReceived CallbackTradePositionCloseReceived;
         private RegressionJobFinished CallbackRegressionJobFinished;
 
-        
+        public delegate void BarCompleted(int jobId, int barIndex, Bar bar);
         public delegate void EntrySignalReceived(int reference);
 
         public delegate void TradePositionCloseReceived(int reference, TradeInstruction entry,
@@ -46,6 +47,7 @@ namespace DATSYS.TradingModel.RegressionRunner
             BarDataHandler barDataHandler, 
             TickDataHandler tickDataHandler,
             DailyPriceBarDataHandler dailyPriceBarDataHandler,
+            BarCompleted callBackBarCompleted,
             EntrySignalReceived callBackEntrySignalReceived,
             TradePositionCloseReceived callBackTradePositionCloseReceived,
             RegressionJobFinished callbackRegressionJobFinished)
@@ -62,6 +64,7 @@ namespace DATSYS.TradingModel.RegressionRunner
             CallbackOnEntrySignalReceived = callBackEntrySignalReceived;
             CallbackTradePositionCloseReceived = callBackTradePositionCloseReceived;
             CallbackRegressionJobFinished = callbackRegressionJobFinished;
+            CallbackBarCompleted = callBackBarCompleted;
 
             m_SignalState=TradingModelSignalState.TradeSignal;
 
@@ -137,7 +140,7 @@ namespace DATSYS.TradingModel.RegressionRunner
                RunTradeSignal();
 
             //log in the stat
-
+            
 
         }
 

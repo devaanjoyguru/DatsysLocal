@@ -12,6 +12,8 @@ using DATSYS.TradingModel.Implementation.Models;
 using DATSYS.TradingModel.MarketDataContracts;
 using DATSYS.TradingModel.MarketDataImplementation;
 using DATSYS.TradingModel.MessageBrokerImplementation;
+using DATSYS.TradingModel.RegressionStats;
+
 //using DATSYS.TradingModel.RegressionRunner.Entities;
 
 namespace DATSYS.TradingModel.RegressionRunner
@@ -34,6 +36,7 @@ namespace DATSYS.TradingModel.RegressionRunner
         private static List<TradingModelRunner> runners;
         private static double pnl;
         private static ManualResetEvent m_RegressionEndFlagEvent;
+        private static RegressionJobStat m_JobStat;
 
         static RegressionRunner()
         {
@@ -71,6 +74,7 @@ namespace DATSYS.TradingModel.RegressionRunner
                     m_RegressionEndFlagEvent.Reset();
                     runners=new List<TradingModelRunner>();
                     pnl = 0;
+                    m_JobStat=new RegressionJobStat();
 
                     //set up consumers
                     tickDataSubscriber = new TickDataSubscriber();
@@ -112,10 +116,16 @@ namespace DATSYS.TradingModel.RegressionRunner
             var tradeModelRunner = new TradingModelRunner(runners.Count + 1, tradingModelInstance,
                                                           regressionJobId,instrumentCode,
                                                           regressionEndDate,
-                                                          barDataHandler, tickDataHandler, dailyPriceBarDataHandler, OnEntrySignalReceived,
+                                                          barDataHandler, tickDataHandler, dailyPriceBarDataHandler,OnBarCompleted,
+                                                          OnEntrySignalReceived,
                                                           OnTradePositionReceived,
                                                           OnRegressionJobFinished);
             runners.Add(tradeModelRunner);
+        }
+
+        private static void OnBarCompleted(int jobid, int barIndex, DATSYS.TradingModel.MarketDataContracts.Entities.Bar bar)
+        {
+            m_JobStat.BarDataStatCollection.AddBar(new BarDataStat(bar,currentJob.InstrumentCode));
         }
 
         private static void OnEntrySignalReceived(int reference)

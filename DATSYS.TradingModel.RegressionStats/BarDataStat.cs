@@ -45,5 +45,9 @@ namespace DATSYS.TradingModel.RegressionStats
             _bar = bar;
             _instrumentCode = instrumentCode;
         }
+
+        public BarDataStat()
+        {
+        }
     }
 }

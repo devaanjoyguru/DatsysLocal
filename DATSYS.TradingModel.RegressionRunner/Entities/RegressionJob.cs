@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DATSYS.TradingModel.RegressionStats;
 
 namespace DATSYS.TradingModel.RegressionRunner.Entities
 {
@@ -17,6 +18,9 @@ namespace DATSYS.TradingModel.RegressionRunner.Entities
         { get; set; }
 
         public RegressionParam RegressionParam 
+        { get; set; }
+
+        public RegressionJobStat JobStat 
         { get; set; }
     }
 }
