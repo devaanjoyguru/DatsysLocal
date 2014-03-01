@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DatsystemsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityType Name="Bars">
+          <Key>
+            <PropertyRef Name="BarId" />
+          </Key>
+          <Property Name="BarId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PriceDate" Type="date" Nullable="false" />
+          <Property Name="BarInterval" Type="int" Nullable="false" />
+          <Property Name="BarDataType" Type="int" Nullable="false" />
+          <Property Name="StartTimestamp" Type="bigint" Nullable="false" />
+          <Property Name="EndTimestamp" Type="bigint" Nullable="false" />
+          <Property Name="BarMin" Type="real" Nullable="false" />
+          <Property Name="BarMax" Type="real" Nullable="false" />
+          <Property Name="BarRange" Type="int" Nullable="false" />
+          <Property Name="BarOpen" Type="real" Nullable="false" />
+          <Property Name="BarClose" Type="real" Nullable="false" />
+          <Property Name="BarMedian" Type="real" Nullable="false" />
+          <Property Name="BarAvg" Type="real" Nullable="false" />
+          <Property Name="InstrumentCode" Type="varchar" MaxLength="20" />
+          <Property Name="Maturity" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="DailyPriceBars">
+          <Key>
+            <PropertyRef Name="DailyBarDataId" />
+          </Key>
+          <Property Name="DailyBarDataId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InstrumentCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PriceDate" Type="date" Nullable="false" />
+          <Property Name="BarMin" Type="real" />
+          <Property Name="BarMax" Type="real" />
+          <Property Name="BarOpen" Type="real" />
+          <Property Name="BarClose" Type="real" />
+        </EntityType>
+        <EntityType Name="RegressionJobs">
+          <Key>
+            <PropertyRef Name="RegressionJobId" />
+          </Key>
+          <Property Name="RegressionJobId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SubmittedAt" Type="datetime" />
+          <Property Name="InstrumentCode" Type="varchar" MaxLength="50" />
+          <Property Name="RegressionStartDate" Type="date" />
+          <Property Name="RegressionEndDate" Type="date" />
+          <Property Name="RegressionBarInterval" Type="int" />
+          <Property Name="RegressionIsDaily" Type="bit" />
+          <Property Name="RegressionStrategyName" Type="varchar" MaxLength="150" />
+          <Property Name="RegressionMicroEnvironment" Type="varchar" MaxLength="150" />
+          <Property Name="RegressionMacroEnvironment" Type="varchar" MaxLength="150" />
+          <Property Name="RegressionIntraDayEnvironment" Type="varchar" MaxLength="150" />
+          <Property Name="JobStatus" Type="varchar" MaxLength="50" />
+          <Property Name="FinishedAt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="StagingTickData">
+          <Key>
+            <PropertyRef Name="PriceDataId" />
+          </Key>
+          <Property Name="PriceDataId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PriceDate" Type="date" />
+          <Property Name="InstrumentCode" Type="varchar" MaxLength="20" />
+          <Property Name="Maturity" Type="varchar" MaxLength="10" />
+          <Property Name="Timestamp" Type="bigint" />
+          <Property Name="BestAsk" Type="real" />
+          <Property Name="BestAskQty" Type="real" />
+          <Property Name="BestBid" Type="real" />
+          <Property Name="BestBidQty" Type="real" />
+          <Property Name="Open" Type="real" />
+          <Property Name="High" Type="real" />
+          <Property Name="Low" Type="real" />
+          <Property Name="Close" Type="real" />
+          <Property Name="ImpliedAsk" Type="real" />
+          <Property Name="ImpliedAskQty" Type="real" />
+          <Property Name="ImpliedBid" Type="real" />
+          <Property Name="ImpliedBidQty" Type="real" />
+          <Property Name="LastTraded" Type="real" />
+          <Property Name="LastTradedQty" Type="real" />
+          <Property Name="Settlement" Type="real" />
+          <Property Name="TotalTradedQty" Type="real" />
+        </EntityType>
+        <Function Name="RegressionJob_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="instrumentCode" Type="varchar" Mode="In" />
+          <Parameter Name="startDate" Type="date" Mode="In" />
+          <Parameter Name="endDate" Type="date" Mode="In" />
+          <Parameter Name="barInterval" Type="int" Mode="In" />
+          <Parameter Name="strategyName" Type="varchar" Mode="In" />
+          <Parameter Name="isDaily" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="RegressionJob_SetFinished" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="jobid" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="DatsystemsModelStoreContainer">
+          <EntitySet Name="Bars" EntityType="Self.Bars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DailyPriceBars" EntityType="Self.DailyPriceBars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegressionJobs" EntityType="Self.RegressionJobs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StagingTickData" EntityType="Self.StagingTickData" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DatsystemsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="DatsystemsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bars" EntityType="DatsystemsModel.Bar" />
+          <EntitySet Name="DailyPriceBars" EntityType="DatsystemsModel.DailyPriceBar" />
+          <EntitySet Name="StagingTickDatas" EntityType="DatsystemsModel.StagingTickData" />
+          <EntitySet Name="RegressionJobs" EntityType="DatsystemsModel.RegressionJob" />
+          <FunctionImport Name="RegressionJob_Insert">
+            <Parameter Name="instrumentCode" Mode="In" Type="String" />
+            <Parameter Name="startDate" Mode="In" Type="DateTime" />
+            <Parameter Name="endDate" Mode="In" Type="DateTime" />
+            <Parameter Name="barInterval" Mode="In" Type="Int32" />
+            <Parameter Name="strategyName" Mode="In" Type="String" />
+            <Parameter Name="isDaily" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="RegressionJob_SetFinished">
+            <Parameter Name="jobid" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Bar">
+          <Key>
+            <PropertyRef Name="BarId" />
+          </Key>
+          <Property Name="BarId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PriceDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BarInterval" Type="Int32" Nullable="false" />
+          <Property Name="BarDataType" Type="Int32" Nullable="false" />
+          <Property Name="StartTimestamp" Type="Int64" Nullable="false" />
+          <Property Name="EndTimestamp" Type="Int64" Nullable="false" />
+          <Property Name="BarMin" Type="Single" Nullable="false" />
+          <Property Name="BarMax" Type="Single" Nullable="false" />
+          <Property Name="BarRange" Type="Int32" Nullable="false" />
+          <Property Name="BarOpen" Type="Single" Nullable="false" />
+          <Property Name="BarClose" Type="Single" Nullable="false" />
+          <Property Name="BarMedian" Type="Single" Nullable="false" />
+          <Property Name="BarAvg" Type="Single" Nullable="false" />
+          <Property Name="InstrumentCode" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="Maturity" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="DailyPriceBar">
+          <Key>
+            <PropertyRef Name="DailyBarDataId" />
+          </Key>
+          <Property Name="DailyBarDataId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InstrumentCode" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="PriceDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="BarMin" Type="Single" />
+          <Property Name="BarMax" Type="Single" />
+          <Property Name="BarOpen" Type="Single" />
+          <Property Name="BarClose" Type="Single" />
+        </EntityType>
+        <EntityType Name="StagingTickData">
+          <Key>
+            <PropertyRef Name="PriceDataId" />
+          </Key>
+          <Property Name="PriceDataId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PriceDate" Type="DateTime" Precision="0" />
+          <Property Name="InstrumentCode" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Name="Maturity" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="Timestamp" Type="Int64" />
+          <Property Name="BestAsk" Type="Single" />
+          <Property Name="BestAskQty" Type="Single" />
+          <Property Name="BestBid" Type="Single" />
+          <Property Name="BestBidQty" Type="Single" />
+          <Property Name="Open" Type="Single" />
+          <Property Name="High" Type="Single" />
+          <Property Name="Low" Type="Single" />
+          <Property Name="Close" Type="Single" />
+          <Property Name="ImpliedAsk" Type="Single" />
+          <Property Name="ImpliedAskQty" Type="Single" />
+          <Property Name="ImpliedBid" Type="Single" />
+          <Property Name="ImpliedBidQty" Type="Single" />
+          <Property Name="LastTraded" Type="Single" />
+          <Property Name="LastTradedQty" Type="Single" />
+          <Property Name="Settlement" Type="Single" />
+          <Property Name="TotalTradedQty" Type="Single" />
+        </EntityType>
+        <ComplexType Name="BestAsk_SelectByDate_Result">
+          <Property Type="Single" Name="BestAsk" Nullable="true" />
+          <Property Type="DateTime" Name="PriceDate" Nullable="true" />
+          <Property Type="Int64" Name="Timestamp" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="DailyBar_Select_Result">
+          <Property Type="Single" Name="BarMin" Nullable="true" />
+          <Property Type="Single" Name="BarMax" Nullable="true" />
+          <Property Type="Single" Name="BarOpen" Nullable="true" />
+          <Property Type="Single" Name="BarClose" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="DailyBar_SelectAll_Result">
+          <Property Type="DateTime" Name="pricedate" Nullable="true" />
+          <Property Type="Single" Name="barmin" Nullable="true" />
+          <Property Type="Single" Name="barmax" Nullable="true" />
+          <Property Type="Single" Name="baropen" Nullable="true" />
+          <Property Type="Single" Name="barclose" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="RegressionJob">
+          <Key>
+            <PropertyRef Name="RegressionJobId" />
+          </Key>
+          <Property Name="RegressionJobId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubmittedAt" Type="DateTime" Precision="3" />
+          <Property Name="InstrumentCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RegressionStartDate" Type="DateTime" Precision="0" />
+          <Property Name="RegressionEndDate" Type="DateTime" Precision="0" />
+          <Property Name="RegressionBarInterval" Type="Int32" />
+          <Property Name="RegressionIsDaily" Type="Boolean" />
+          <Property Name="RegressionStrategyName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="RegressionMicroEnvironment" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="RegressionMacroEnvironment" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="RegressionIntraDayEnvironment" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="JobStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FinishedAt" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DatsystemsModelStoreContainer" CdmEntityContainer="DatsystemsEntities">
+          <EntitySetMapping Name="Bars">
+            <EntityTypeMapping TypeName="DatsystemsModel.Bar">
+              <MappingFragment StoreEntitySet="Bars">
+                <ScalarProperty Name="BarId" ColumnName="BarId" />
+                <ScalarProperty Name="PriceDate" ColumnName="PriceDate" />
+                <ScalarProperty Name="BarInterval" ColumnName="BarInterval" />
+                <ScalarProperty Name="BarDataType" ColumnName="BarDataType" />
+                <ScalarProperty Name="StartTimestamp" ColumnName="StartTimestamp" />
+                <ScalarProperty Name="EndTimestamp" ColumnName="EndTimestamp" />
+                <ScalarProperty Name="BarMin" ColumnName="BarMin" />
+                <ScalarProperty Name="BarMax" ColumnName="BarMax" />
+                <ScalarProperty Name="BarRange" ColumnName="BarRange" />
+                <ScalarProperty Name="BarOpen" ColumnName="BarOpen" />
+                <ScalarProperty Name="BarClose" ColumnName="BarClose" />
+                <ScalarProperty Name="BarMedian" ColumnName="BarMedian" />
+                <ScalarProperty Name="BarAvg" ColumnName="BarAvg" />
+                <ScalarProperty Name="InstrumentCode" ColumnName="InstrumentCode" />
+                <ScalarProperty Name="Maturity" ColumnName="Maturity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DailyPriceBars">
+            <EntityTypeMapping TypeName="DatsystemsModel.DailyPriceBar">
+              <MappingFragment StoreEntitySet="DailyPriceBars">
+                <ScalarProperty Name="DailyBarDataId" ColumnName="DailyBarDataId" />
+                <ScalarProperty Name="InstrumentCode" ColumnName="InstrumentCode" />
+                <ScalarProperty Name="PriceDate" ColumnName="PriceDate" />
+                <ScalarProperty Name="BarMin" ColumnName="BarMin" />
+                <ScalarProperty Name="BarMax" ColumnName="BarMax" />
+                <ScalarProperty Name="BarOpen" ColumnName="BarOpen" />
+                <ScalarProperty Name="BarClose" ColumnName="BarClose" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StagingTickDatas">
+            <EntityTypeMapping TypeName="DatsystemsModel.StagingTickData">
+              <MappingFragment StoreEntitySet="StagingTickData">
+                <ScalarProperty Name="PriceDataId" ColumnName="PriceDataId" />
+                <ScalarProperty Name="PriceDate" ColumnName="PriceDate" />
+                <ScalarProperty Name="InstrumentCode" ColumnName="InstrumentCode" />
+                <ScalarProperty Name="Maturity" ColumnName="Maturity" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="BestAsk" ColumnName="BestAsk" />
+                <ScalarProperty Name="BestAskQty" ColumnName="BestAskQty" />
+                <ScalarProperty Name="BestBid" ColumnName="BestBid" />
+                <ScalarProperty Name="BestBidQty" ColumnName="BestBidQty" />
+                <ScalarProperty Name="Open" ColumnName="Open" />
+                <ScalarProperty Name="High" ColumnName="High" />
+                <ScalarProperty Name="Low" ColumnName="Low" />
+                <ScalarProperty Name="Close" ColumnName="Close" />
+                <ScalarProperty Name="ImpliedAsk" ColumnName="ImpliedAsk" />
+                <ScalarProperty Name="ImpliedAskQty" ColumnName="ImpliedAskQty" />
+                <ScalarProperty Name="ImpliedBid" ColumnName="ImpliedBid" />
+                <ScalarProperty Name="ImpliedBidQty" ColumnName="ImpliedBidQty" />
+                <ScalarProperty Name="LastTraded" ColumnName="LastTraded" />
+                <ScalarProperty Name="LastTradedQty" ColumnName="LastTradedQty" />
+                <ScalarProperty Name="Settlement" ColumnName="Settlement" />
+                <ScalarProperty Name="TotalTradedQty" ColumnName="TotalTradedQty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegressionJobs">
+            <EntityTypeMapping TypeName="DatsystemsModel.RegressionJob">
+              <MappingFragment StoreEntitySet="RegressionJobs">
+                <ScalarProperty Name="FinishedAt" ColumnName="FinishedAt" />
+                <ScalarProperty Name="JobStatus" ColumnName="JobStatus" />
+                <ScalarProperty Name="RegressionIntraDayEnvironment" ColumnName="RegressionIntraDayEnvironment" />
+                <ScalarProperty Name="RegressionMacroEnvironment" ColumnName="RegressionMacroEnvironment" />
+                <ScalarProperty Name="RegressionMicroEnvironment" ColumnName="RegressionMicroEnvironment" />
+                <ScalarProperty Name="RegressionStrategyName" ColumnName="RegressionStrategyName" />
+                <ScalarProperty Name="RegressionIsDaily" ColumnName="RegressionIsDaily" />
+                <ScalarProperty Name="RegressionBarInterval" ColumnName="RegressionBarInterval" />
+                <ScalarProperty Name="RegressionEndDate" ColumnName="RegressionEndDate" />
+                <ScalarProperty Name="RegressionStartDate" ColumnName="RegressionStartDate" />
+                <ScalarProperty Name="InstrumentCode" ColumnName="InstrumentCode" />
+                <ScalarProperty Name="SubmittedAt" ColumnName="SubmittedAt" />
+                <ScalarProperty Name="RegressionJobId" ColumnName="RegressionJobId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RegressionJob_Insert" FunctionName="DatsystemsModel.Store.RegressionJob_Insert" />
+          <FunctionImportMapping FunctionImportName="RegressionJob_SetFinished" FunctionName="DatsystemsModel.Store.RegressionJob_SetFinished" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

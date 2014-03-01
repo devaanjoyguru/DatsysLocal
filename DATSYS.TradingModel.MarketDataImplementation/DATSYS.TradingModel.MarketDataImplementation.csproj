@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A6B27F60-3F9A-4C4C-A445-778D99B9B70C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DATSYS.TradingModel.MarketDataImplementation</RootNamespace>
+    <AssemblyName>DATSYS.TradingModel.MarketDataImplementation</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DailyPriceBarDataHandler.cs" />
+    <Compile Include="HistoricalDataFeeder.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BarDataHandler.cs" />
+    <Compile Include="TickDataHandler.cs" />
+    <Compile Include="SimpleBarDataHandler.cs" />
+    <Compile Include="SimpleTickDataHandler.cs" />
+    <Compile Include="TickDataSubscriber.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DATSYS.TradingModel.Common\DATSYS.TradingModel.Common.csproj">
+      <Project>{174C7825-C4CB-4CCC-BE69-119A04BA4AF0}</Project>
+      <Name>DATSYS.TradingModel.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DATSYS.TradingModel.DataEntityImplementation\DATSYS.TradingModel.DataEntityImplementation.csproj">
+      <Project>{3E0D5543-914A-4B17-9062-2410D32CDA17}</Project>
+      <Name>DATSYS.TradingModel.DataEntityImplementation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DATSYS.TradingModel.MarketDataContracts\DATSYS.TradingModel.MarketDataContracts.csproj">
+      <Project>{402580E9-C952-4A38-9799-E762951E792A}</Project>
+      <Name>DATSYS.TradingModel.MarketDataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DATSYS.TradingModel.MessageBrokerContracts\DATSYS.TradingModel.MessageBrokerContracts.csproj">
+      <Project>{2277C6DF-E541-4C45-9465-C9B0424FC9EE}</Project>
+      <Name>DATSYS.TradingModel.MessageBrokerContracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

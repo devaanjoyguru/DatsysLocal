@@ -1,0 +1,24 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PostLoginDefault.master.cs" Inherits="DATSYS.TradingModel.RegressionWebClient.PostLoginDefault" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:HyperLink runat="server" Text="Add new regression" NavigateUrl="Application/AddToRegression.aspx"></asp:HyperLink>
+        <asp:HyperLink runat="server" Text="View regression jobs" NavigateUrl="Application/ViewRegressionJobs.aspx"></asp:HyperLink>
+    </div>
+    <div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>
