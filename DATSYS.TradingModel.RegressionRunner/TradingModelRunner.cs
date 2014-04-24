@@ -24,19 +24,22 @@ namespace DATSYS.TradingModel.RegressionRunner
         private int m_jobId;
         private string m_instrumentCode;
         private DateTime m_RegressionEndDate;
+        private int m_CurrentBarIndex = 0;
 
         private BarCompleted CallbackBarCompleted;
         private EntrySignalReceived CallbackOnEntrySignalReceived;
         private TradePositionCloseReceived CallbackTradePositionCloseReceived;
         private RegressionJobFinished CallbackRegressionJobFinished;
+        private TickDataUpdateReceived CallbackTickDataUpdateReceived;
 
         public delegate void BarCompleted(int jobId, int barIndex, Bar bar);
-        public delegate void EntrySignalReceived(int reference);
+        public delegate void EntrySignalReceived(int reference, int barIndex);
 
         public delegate void TradePositionCloseReceived(int reference, TradeInstruction entry,
                                                         TradeInstruction exit);
 
         public delegate void RegressionJobFinished(int reference);
+        public delegate void TickDataUpdateReceived(int jobId, MarketTickData tickData, int barIndex);
 
         public TradingModelRunner(
             int reference,
@@ -50,7 +53,8 @@ namespace DATSYS.TradingModel.RegressionRunner
             BarCompleted callBackBarCompleted,
             EntrySignalReceived callBackEntrySignalReceived,
             TradePositionCloseReceived callBackTradePositionCloseReceived,
-            RegressionJobFinished callbackRegressionJobFinished)
+            RegressionJobFinished callbackRegressionJobFinished,
+            TickDataUpdateReceived callbackTickDataUpdateReceived)
         {
             m_ref = reference;
             m_TradingModel = tradeModel;
@@ -65,6 +69,7 @@ namespace DATSYS.TradingModel.RegressionRunner
             CallbackTradePositionCloseReceived = callBackTradePositionCloseReceived;
             CallbackRegressionJobFinished = callbackRegressionJobFinished;
             CallbackBarCompleted = callBackBarCompleted;
+            CallbackTickDataUpdateReceived = callbackTickDataUpdateReceived;
 
             m_SignalState=TradingModelSignalState.TradeSignal;
 
@@ -96,6 +101,8 @@ namespace DATSYS.TradingModel.RegressionRunner
 
         void OnRealTimeTickDataUpdate(string sender, MarketTickData message)
         {
+            
+
             //TODO: This depends on the mode of when the trade signal should be run
 
             if (m_TradingModel.IsDaily && !m_IsDailyTradeSignalRan)
@@ -113,15 +120,23 @@ namespace DATSYS.TradingModel.RegressionRunner
                     m_TradeEntryInstruction = m_TradingModel.TradeEntry();
 
                     if (m_TradeEntryInstruction != null)
+                    {
+                        //add the bar index for entry position
+                        m_TradeEntryInstruction.BarIndex = m_CurrentBarIndex;
                         m_SignalState = TradingModelSignalState.TradeExit;
+                    }
                 }
 
                 if (m_SignalState == TradingModelSignalState.TradeExit)
                 {
                     m_TradeExitInstruction = m_TradingModel.TradeExit(m_TradeEntryInstruction);
 
+
                     if (m_TradeExitInstruction != null)
                     {
+                        //log the bar index for exit signal
+                        m_TradeExitInstruction.BarIndex = m_CurrentBarIndex;
+
                         //unsubscribe from all events
                         m_BarDataHandler.BarDataCreatedCompleted -= OnBarDataCreatedCompleted;
                         m_TickDataHandler.OnRealTimeTickDataUpdate -= OnRealTimeTickDataUpdate;
@@ -132,12 +147,21 @@ namespace DATSYS.TradingModel.RegressionRunner
                     }
                 }
             }
+
+            if (CallbackTickDataUpdateReceived != null)
+                CallbackTickDataUpdateReceived.Invoke(m_jobId, message, m_CurrentBarIndex); 
         }
 
         void OnBarDataCreatedCompleted(BarDataType barDataType, BarDataArgs args, int barInterval)
         {
+            m_CurrentBarIndex = args.Index;
+
             if(!m_TradingModel.IsDaily)
                RunTradeSignal();
+
+            //Invoke bar completed
+            if(CallbackBarCompleted!=null)
+                CallbackBarCompleted.Invoke(m_jobId,args.Index, args.Bar);
 
             //log in the stat
             
@@ -158,7 +182,7 @@ namespace DATSYS.TradingModel.RegressionRunner
                     
                     
                     if (CallbackOnEntrySignalReceived != null)
-                        CallbackOnEntrySignalReceived.Invoke(m_ref);
+                        CallbackOnEntrySignalReceived.Invoke(m_ref, m_CurrentBarIndex);
                 }
             }
         }

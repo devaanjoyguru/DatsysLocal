@@ -40,13 +40,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BarDataStat.cs" />
-    <Compile Include="BarDataStatCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegressionJobStat.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DATSYS.TradingModel.Contract\DATSYS.TradingModel.Contract.csproj">
+      <Project>{a714bbcc-6ebb-4f24-8211-7c5157a3dc98}</Project>
+      <Name>DATSYS.TradingModel.Contract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DATSYS.TradingModel.DataEntityImplementation\DATSYS.TradingModel.DataEntityImplementation.csproj">
-      <Project>{3E0D5543-914A-4B17-9062-2410D32CDA17}</Project>
+      <Project>{3e0d5543-914a-4b17-9062-2410d32cda17}</Project>
       <Name>DATSYS.TradingModel.DataEntityImplementation</Name>
     </ProjectReference>
     <ProjectReference Include="..\DATSYS.TradingModel.MarketDataContracts\DATSYS.TradingModel.MarketDataContracts.csproj">

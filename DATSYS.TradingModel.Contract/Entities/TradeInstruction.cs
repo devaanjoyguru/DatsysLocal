@@ -18,5 +18,7 @@ namespace DATSYS.TradingModel.Contract.Entities
         public double Stop { get; set; }
 
         public TradePositionType PositionType { get; set; }
+
+        public int BarIndex { get; set; }
     }
 }

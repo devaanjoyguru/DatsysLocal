@@ -9,6 +9,11 @@
         <EntityTypeShape EntityType="DatsystemsModel.DailyPriceBar" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DatsystemsModel.StagingTickData" Width="2" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DatsystemsModel.RegressionJob" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="DatsystemsModel.RegressionJobStat" Width="1.5" PointX="7.2801904935763169" PointY="13.962270117347254" />
+        <EntityTypeShape EntityType="DatsystemsModel.RegressionJobBar" Width="1.5" PointX="5.4019311449499483" PointY="16.594829120018904" />
+        <EntityTypeShape EntityType="DatsystemsModel.RegressionJobTickData" Width="3.125" PointX="5.625" PointY="10.5" />
+        <EntityTypeShape EntityType="DatsystemsModel.RegressionJobTradePosition" Width="2.5" PointX="0.5" PointY="12.125" />
+        <EntityTypeShape EntityType="DatsystemsModel.RegressionJobTradeSignal" Width="1.5" PointX="8.3542658613781757" PointY="23.909819018053739" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

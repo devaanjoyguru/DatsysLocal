@@ -7,43 +7,30 @@ using DATSYS.TradingModel.MarketDataContracts.Entities;
 
 namespace DATSYS.TradingModel.RegressionStats
 {
+    [Serializable]
     public class BarDataStat
     {
-        private readonly Bar _bar;
-        private readonly string _instrumentCode;
-
+        private Bar _bar;
+        private int _index;
+        
         public Bar Bar
         {
             get { return _bar; }
+            set { _bar = value; }
         }
 
-        public int Index { get; set; }
-
-        public DateTime DataDate { get; set; }
-
-        public string InstrumentCode
+        public int Index
         {
-            get { return _instrumentCode; }
-
+            get { return _index; }
+            set { _index = value; }
+            
         }
 
-        public List<MarketTickData> TickDatas
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(InstrumentCode))
-                {
-                   return DataManager.GeMarketTickDatasForBar(InstrumentCode, Bar.StartTimestamp, Bar.EndTimestamp);
-                }
 
-                return null;
-            }
-        }
-
-        public BarDataStat(Bar bar, string instrumentCode)
+        public BarDataStat(Bar bar, int index)
         {
             _bar = bar;
-            _instrumentCode = instrumentCode;
+            _index = index;
         }
 
         public BarDataStat()

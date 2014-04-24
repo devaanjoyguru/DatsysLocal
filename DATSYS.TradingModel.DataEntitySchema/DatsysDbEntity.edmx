@@ -4,12 +4,23 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DatsystemsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="DatsystemsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="DatsystemsModelStoreContainer">
+          <EntitySet Name="Bars" EntityType="DatsystemsModel.Store.Bars" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DailyPriceBars" EntityType="DatsystemsModel.Store.DailyPriceBars" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RegressionJobBars" EntityType="DatsystemsModel.Store.RegressionJobBars" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RegressionJobs" EntityType="DatsystemsModel.Store.RegressionJobs" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RegressionJobStat" EntityType="DatsystemsModel.Store.RegressionJobStat" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RegressionJobTickData" EntityType="DatsystemsModel.Store.RegressionJobTickData" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RegressionJobTradePositions" EntityType="DatsystemsModel.Store.RegressionJobTradePositions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RegressionJobTradeSignals" EntityType="DatsystemsModel.Store.RegressionJobTradeSignals" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="StagingTickData" EntityType="DatsystemsModel.Store.StagingTickData" store:Type="Tables" Schema="dbo" />
+        </EntityContainer>
         <EntityType Name="Bars">
           <Key>
             <PropertyRef Name="BarId" />
           </Key>
-          <Property Name="BarId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BarId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="PriceDate" Type="date" Nullable="false" />
           <Property Name="BarInterval" Type="int" Nullable="false" />
           <Property Name="BarDataType" Type="int" Nullable="false" />
@@ -29,19 +40,29 @@
           <Key>
             <PropertyRef Name="DailyBarDataId" />
           </Key>
-          <Property Name="DailyBarDataId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="InstrumentCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="DailyBarDataId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="InstrumentCode" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="PriceDate" Type="date" Nullable="false" />
           <Property Name="BarMin" Type="real" />
           <Property Name="BarMax" Type="real" />
           <Property Name="BarOpen" Type="real" />
           <Property Name="BarClose" Type="real" />
         </EntityType>
+        <EntityType Name="RegressionJobBars">
+          <Key>
+            <PropertyRef Name="RegressionJobId" />
+            <PropertyRef Name="BarIndex" />
+          </Key>
+          <Property Name="RegressionJobId" Type="int" Nullable="false" />
+          <Property Name="BarIndex" Type="int" Nullable="false" />
+          <Property Name="BarMin" Type="real" />
+          <Property Name="BarMax" Type="real" />
+        </EntityType>
         <EntityType Name="RegressionJobs">
           <Key>
             <PropertyRef Name="RegressionJobId" />
           </Key>
-          <Property Name="RegressionJobId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RegressionJobId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="SubmittedAt" Type="datetime" />
           <Property Name="InstrumentCode" Type="varchar" MaxLength="50" />
           <Property Name="RegressionStartDate" Type="date" />
@@ -55,11 +76,53 @@
           <Property Name="JobStatus" Type="varchar" MaxLength="50" />
           <Property Name="FinishedAt" Type="datetime" />
         </EntityType>
+        <EntityType Name="RegressionJobStat">
+          <Key>
+            <PropertyRef Name="RegressionJobId" />
+          </Key>
+          <Property Name="RegressionJobId" Type="int" Nullable="false" />
+          <Property Name="JobStat" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="RegressionJobTickData">
+          <Key>
+            <PropertyRef Name="RegressionJobTickDataId" />
+          </Key>
+          <Property Name="RegressionJobTickDataId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RegressionJobId" Type="int" Nullable="false" />
+          <Property Name="BarIndex" Type="int" />
+          <Property Name="Ask" Type="real" />
+          <Property Name="AskQty" Type="real" />
+          <Property Name="Bid" Type="real" />
+          <Property Name="BidQty" Type="real" />
+        </EntityType>
+        <EntityType Name="RegressionJobTradePositions">
+          <Key>
+            <PropertyRef Name="RegressionTradeSignalId" />
+          </Key>
+          <Property Name="RegressionTradeSignalId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="RegressionJobId" Type="int" Nullable="false" />
+          <Property Name="TradePositionType" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Reference" Type="int" Nullable="false" />
+          <Property Name="Price" Type="real" />
+          <Property Name="Direction" Type="varchar" MaxLength="50" />
+          <Property Name="Lots" Type="real" />
+          <Property Name="Target" Type="real" />
+          <Property Name="Stop" Type="real" />
+          <Property Name="BarIndex" Type="int" />
+        </EntityType>
+        <EntityType Name="RegressionJobTradeSignals">
+          <Key>
+            <PropertyRef Name="RegressionJobId" />
+            <PropertyRef Name="BarIndex" />
+          </Key>
+          <Property Name="RegressionJobId" Type="int" Nullable="false" />
+          <Property Name="BarIndex" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="StagingTickData">
           <Key>
             <PropertyRef Name="PriceDataId" />
           </Key>
-          <Property Name="PriceDataId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PriceDataId" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="PriceDate" Type="date" />
           <Property Name="InstrumentCode" Type="varchar" MaxLength="20" />
           <Property Name="Maturity" Type="varchar" MaxLength="10" />
@@ -92,12 +155,6 @@
         <Function Name="RegressionJob_SetFinished" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="jobid" Type="int" Mode="In" />
         </Function>
-        <EntityContainer Name="DatsystemsModelStoreContainer">
-          <EntitySet Name="Bars" EntityType="Self.Bars" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DailyPriceBars" EntityType="Self.DailyPriceBars" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RegressionJobs" EntityType="Self.RegressionJobs" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="StagingTickData" EntityType="Self.StagingTickData" Schema="dbo" store:Type="Tables" />
-        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -116,8 +173,13 @@
             <Parameter Name="isDaily" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="RegressionJob_SetFinished">
-            <Parameter Name="jobid" Mode="In" Type="Int32" />
+          <Parameter Name="jobid" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="RegressionJobStats" EntityType="DatsystemsModel.RegressionJobStat" />
+          <EntitySet Name="RegressionJobBars" EntityType="DatsystemsModel.RegressionJobBar" />
+          <EntitySet Name="RegressionJobTickDatas" EntityType="DatsystemsModel.RegressionJobTickData" />
+          <EntitySet Name="RegressionJobTradePositions" EntityType="DatsystemsModel.RegressionJobTradePosition" />
+          <EntitySet Name="RegressionJobTradeSignals" EntityType="DatsystemsModel.RegressionJobTradeSignal" />
         </EntityContainer>
         <EntityType Name="Bar">
           <Key>
@@ -213,6 +275,58 @@
           <Property Name="JobStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FinishedAt" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="RegressionJobStat">
+          <Key>
+            <PropertyRef Name="RegressionJobId" />
+          </Key>
+          <Property Type="Int32" Name="RegressionJobId" Nullable="false" />
+          <Property Type="String" Name="JobStat" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="RegressionJobBar">
+          <Key>
+            <PropertyRef Name="RegressionJobId" />
+            <PropertyRef Name="BarIndex" />
+          </Key>
+          <Property Type="Int32" Name="RegressionJobId" Nullable="false" />
+          <Property Type="Int32" Name="BarIndex" Nullable="false" />
+          <Property Type="Single" Name="BarMin" />
+          <Property Type="Single" Name="BarMax" />
+        </EntityType>
+        <EntityType Name="RegressionJobTickData">
+          <Key>
+            <PropertyRef Name="RegressionJobTickDataId" />
+          </Key>
+          <Property Type="Int64" Name="RegressionJobTickDataId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="RegressionJobId" Nullable="false" />
+          <Property Type="Int32" Name="BarIndex" />
+          <Property Type="Single" Name="Ask" />
+          <Property Type="Single" Name="AskQty" />
+          <Property Type="Single" Name="Bid" />
+          <Property Type="Single" Name="BidQty" />
+        </EntityType>
+        <EntityType Name="RegressionJobTradePosition">
+          <Key>
+            <PropertyRef Name="RegressionTradeSignalId" />
+          </Key>
+          <Property Type="Int32" Name="RegressionJobId" Nullable="false" />
+          <Property Type="String" Name="TradePositionType" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="Reference" Nullable="false" />
+          <Property Type="Single" Name="Price" />
+          <Property Type="String" Name="Direction" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Single" Name="Lots" />
+          <Property Type="Single" Name="Target" />
+          <Property Type="Single" Name="Stop" />
+          <Property Type="Int32" Name="BarIndex" />
+          <Property Type="Int32" Name="RegressionTradeSignalId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="RegressionJobTradeSignal">
+          <Key>
+            <PropertyRef Name="RegressionJobId" />
+            <PropertyRef Name="BarIndex" />
+          </Key>
+          <Property Type="Int32" Name="RegressionJobId" Nullable="false" />
+          <Property Type="Int32" Name="BarIndex" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -301,6 +415,61 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="RegressionJob_Insert" FunctionName="DatsystemsModel.Store.RegressionJob_Insert" />
           <FunctionImportMapping FunctionImportName="RegressionJob_SetFinished" FunctionName="DatsystemsModel.Store.RegressionJob_SetFinished" />
+          <EntitySetMapping Name="RegressionJobStats">
+            <EntityTypeMapping TypeName="DatsystemsModel.RegressionJobStat">
+              <MappingFragment StoreEntitySet="RegressionJobStat">
+                <ScalarProperty Name="JobStat" ColumnName="JobStat" />
+                <ScalarProperty Name="RegressionJobId" ColumnName="RegressionJobId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegressionJobBars">
+            <EntityTypeMapping TypeName="DatsystemsModel.RegressionJobBar">
+              <MappingFragment StoreEntitySet="RegressionJobBars">
+                <ScalarProperty Name="BarMax" ColumnName="BarMax" />
+                <ScalarProperty Name="BarMin" ColumnName="BarMin" />
+                <ScalarProperty Name="BarIndex" ColumnName="BarIndex" />
+                <ScalarProperty Name="RegressionJobId" ColumnName="RegressionJobId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegressionJobTickDatas">
+            <EntityTypeMapping TypeName="DatsystemsModel.RegressionJobTickData">
+              <MappingFragment StoreEntitySet="RegressionJobTickData">
+                <ScalarProperty Name="BidQty" ColumnName="BidQty" />
+                <ScalarProperty Name="Bid" ColumnName="Bid" />
+                <ScalarProperty Name="AskQty" ColumnName="AskQty" />
+                <ScalarProperty Name="Ask" ColumnName="Ask" />
+                <ScalarProperty Name="BarIndex" ColumnName="BarIndex" />
+                <ScalarProperty Name="RegressionJobId" ColumnName="RegressionJobId" />
+                <ScalarProperty Name="RegressionJobTickDataId" ColumnName="RegressionJobTickDataId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegressionJobTradePositions">
+            <EntityTypeMapping TypeName="DatsystemsModel.RegressionJobTradePosition">
+              <MappingFragment StoreEntitySet="RegressionJobTradePositions">
+                <ScalarProperty Name="RegressionTradeSignalId" ColumnName="RegressionTradeSignalId" />
+                <ScalarProperty Name="BarIndex" ColumnName="BarIndex" />
+                <ScalarProperty Name="Stop" ColumnName="Stop" />
+                <ScalarProperty Name="Target" ColumnName="Target" />
+                <ScalarProperty Name="Lots" ColumnName="Lots" />
+                <ScalarProperty Name="Direction" ColumnName="Direction" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
+                <ScalarProperty Name="TradePositionType" ColumnName="TradePositionType" />
+                <ScalarProperty Name="RegressionJobId" ColumnName="RegressionJobId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegressionJobTradeSignals">
+            <EntityTypeMapping TypeName="DatsystemsModel.RegressionJobTradeSignal">
+              <MappingFragment StoreEntitySet="RegressionJobTradeSignals">
+                <ScalarProperty Name="BarIndex" ColumnName="BarIndex" />
+                <ScalarProperty Name="RegressionJobId" ColumnName="RegressionJobId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

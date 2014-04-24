@@ -6,6 +6,7 @@ using DATSYS.TradingModel.DataEntitySchema;
 using DATSYS.TradingModel.MarketDataContracts.Entities;
 using Bar = DATSYS.TradingModel.DataEntitySchema.Bar;
 
+
 namespace DATSYS.TradingModel.DataEntityImplementation
 {
     public static class DataManager
@@ -106,5 +107,67 @@ namespace DATSYS.TradingModel.DataEntityImplementation
         }
 
         #endregion
+
+        #region INSERT
+
+        public static void AddRegressionJobStat(int jobId, string jobStatData)
+        {
+            dbcontext.RegressionJobStats.Add(new RegressionJobStat
+                {
+                    RegressionJobId = jobId,
+                    JobStat = jobStatData
+                });
+            dbcontext.SaveChanges();
+        }
+
+        #endregion
+    }
+
+    public class JobDataManager
+    {
+        public DatsystemsEntities datsys = new DatsystemsEntities();
+
+        public void AddRegressionJobBar(int regressionJobUd,int index, Bar bar)
+        {
+            datsys.RegressionJobBars.Add(new RegressionJobBar
+            {
+                RegressionJobId=regressionJobUd,
+                BarIndex=index,
+                BarMin=bar.BarMin,
+                BarMax=bar.BarMax});
+            datsys.SaveChanges();
+        }
+
+        public void AddRegressionJobTickData(int regressionJobId, int barIndex, MarketTickData tickData)
+        {
+            datsys.RegressionJobTickDatas.Add(new RegressionJobTickData
+            {
+                RegressionJobId = regressionJobId,
+                BarIndex = barIndex,
+                Ask = (float?)(tickData.Ask),
+                AskQty = (float?)(tickData.AskQty),
+                Bid = (float?)tickData.Bid,
+                BidQty = (float?)tickData.BidQty
+            });
+            datsys.SaveChanges();
+        }
+
+        public void AddRegressionJobTickDatas(List<RegressionJobTickData> tickDatas)
+        {
+            datsys.RegressionJobTickDatas.AddRange(tickDatas);
+            datsys.SaveChanges();
+        }
+
+        public void AddEntrySignals(List<RegressionJobTradeSignal> entrySignals)
+        {
+            datsys.RegressionJobTradeSignals.AddRange(entrySignals);
+            datsys.SaveChanges();
+        }
+
+        public void AddTradeSignals(List<RegressionJobTradePosition> tradePositions)
+        {
+            datsys.RegressionJobTradePositions.AddRange(tradePositions);
+            datsys.SaveChanges();
+        }
     }
 }

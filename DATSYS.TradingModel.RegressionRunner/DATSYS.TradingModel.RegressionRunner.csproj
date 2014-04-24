@@ -46,6 +46,10 @@
     <Compile Include="TradingModelRunner.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DATSYS.TradingModel.Common\DATSYS.TradingModel.Common.csproj">
+      <Project>{174C7825-C4CB-4CCC-BE69-119A04BA4AF0}</Project>
+      <Name>DATSYS.TradingModel.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DATSYS.TradingModel.Contract\DATSYS.TradingModel.Contract.csproj">
       <Project>{A714BBCC-6EBB-4F24-8211-7C5157A3DC98}</Project>
       <Name>DATSYS.TradingModel.Contract</Name>

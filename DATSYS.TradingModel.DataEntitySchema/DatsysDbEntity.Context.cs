@@ -7,14 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Data.Entity.Core.Objects;
-
 namespace DATSYS.TradingModel.DataEntitySchema
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    using System.Data.Entity.Core;
+    using System.Data.Entity.Core.Objects;
     using System.Data.Objects.DataClasses;
     using System.Linq;
     
@@ -34,6 +32,11 @@ namespace DATSYS.TradingModel.DataEntitySchema
         public DbSet<DailyPriceBar> DailyPriceBars { get; set; }
         public DbSet<StagingTickData> StagingTickDatas { get; set; }
         public DbSet<RegressionJob> RegressionJobs { get; set; }
+        public DbSet<RegressionJobStat> RegressionJobStats { get; set; }
+        public DbSet<RegressionJobBar> RegressionJobBars { get; set; }
+        public DbSet<RegressionJobTickData> RegressionJobTickDatas { get; set; }
+        public DbSet<RegressionJobTradePosition> RegressionJobTradePositions { get; set; }
+        public DbSet<RegressionJobTradeSignal> RegressionJobTradeSignals { get; set; }
     
         public virtual int RegressionJob_Insert(string instrumentCode, Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, Nullable<int> barInterval, string strategyName, Nullable<bool> isDaily)
         {

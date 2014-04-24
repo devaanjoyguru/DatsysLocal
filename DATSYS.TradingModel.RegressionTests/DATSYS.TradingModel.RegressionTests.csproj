@@ -62,6 +62,10 @@
       <Project>{3E0D5543-914A-4B17-9062-2410D32CDA17}</Project>
       <Name>DATSYS.TradingModel.DataEntityImplementation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DATSYS.TradingModel.DataEntitySchema\DATSYS.TradingModel.DataEntitySchema.csproj">
+      <Project>{976B57F1-8F6C-437B-BAF3-77A8D445C24C}</Project>
+      <Name>DATSYS.TradingModel.DataEntitySchema</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

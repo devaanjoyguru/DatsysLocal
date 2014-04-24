@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DATSYS.TradingModel.Common;
 using DATSYS.TradingModel.Contract.Entities;
 using DATSYS.TradingModel.Contract.Interfaces;
 using DATSYS.TradingModel.DataEntityImplementation;
-using DATSYS.TradingModel.DataEntitySchema;
+using DataEntity = DATSYS.TradingModel.DataEntitySchema;
 using DATSYS.TradingModel.Implementation.Models;
 using DATSYS.TradingModel.MarketDataContracts;
 using DATSYS.TradingModel.MarketDataImplementation;
 using DATSYS.TradingModel.MessageBrokerImplementation;
 using DATSYS.TradingModel.RegressionStats;
+using RegressionJobStat = DATSYS.TradingModel.RegressionStats.RegressionJobStat;
+using DATSYS.TradingModel.MarketDataContracts.Entities;
 
 //using DATSYS.TradingModel.RegressionRunner.Entities;
 
@@ -25,7 +28,7 @@ namespace DATSYS.TradingModel.RegressionRunner
         static HistoricalDataFeeder historicalDataFeeder=new HistoricalDataFeeder();
 
         static int currentJobIndex=0;
-        private static RegressionJob currentJob;
+        private static DataEntity.RegressionJob currentJob;
         
         private static bool isRun = false;
         private static int currentProcessIndex = 0;
@@ -75,6 +78,8 @@ namespace DATSYS.TradingModel.RegressionRunner
                     runners=new List<TradingModelRunner>();
                     pnl = 0;
                     m_JobStat=new RegressionJobStat();
+                    m_JobStat.InstrumentCode = currentJob.InstrumentCode;
+                    m_JobStat.JobId = currentJob.RegressionJobId;
 
                     //set up consumers
                     tickDataSubscriber = new TickDataSubscriber();
@@ -119,22 +124,35 @@ namespace DATSYS.TradingModel.RegressionRunner
                                                           barDataHandler, tickDataHandler, dailyPriceBarDataHandler,OnBarCompleted,
                                                           OnEntrySignalReceived,
                                                           OnTradePositionReceived,
-                                                          OnRegressionJobFinished);
+                                                          OnRegressionJobFinished,
+                                                          OnTickDataUpdateReceived);
             runners.Add(tradeModelRunner);
+        }
+
+        private static void OnTickDataUpdateReceived(int jobid, MarketTickData tickData, int barIndex)
+        {
+            m_JobStat.AddMarketTickData(barIndex, tickData);
         }
 
         private static void OnBarCompleted(int jobid, int barIndex, DATSYS.TradingModel.MarketDataContracts.Entities.Bar bar)
         {
-            m_JobStat.BarDataStatCollection.AddBar(new BarDataStat(bar,currentJob.InstrumentCode));
+            m_JobStat.AddBar(new BarDataStat(bar, barIndex));
         }
 
-        private static void OnEntrySignalReceived(int reference)
+        private static void OnEntrySignalReceived(int reference, int barIndex)
         {
             Console.ForegroundColor=ConsoleColor.Cyan;
-            Console.WriteLine("Entry signal recived for reference :{0}", reference);
+            Console.WriteLine("Entry signal recived for reference :{0} , Bar Index : {1}", reference, barIndex);
             Console.ForegroundColor=ConsoleColor.White;
             //creates a new instance for processing a new runner
             StartTradeModelRunner(currentJob.RegressionJobId, currentJob.InstrumentCode, currentJob.RegressionEndDate.Value);
+        
+            //add to stat
+            m_JobStat.AddEntrySignal(new EntrySignalStat
+                {
+                    BarIndex = barIndex, 
+                    Reference = reference
+                });
         }
 
         private static void OnTradePositionReceived(int reference, TradeInstruction entry, TradeInstruction exit)
@@ -150,17 +168,82 @@ namespace DATSYS.TradingModel.RegressionRunner
             Console.WriteLine("RUNNING PNL IN TICKS = {0}", pnl );
             Console.ForegroundColor = ConsoleColor.White;
 
+            m_JobStat.AddTradeSignal(new TradeSignalStat
+                {
+                    Reference = reference, 
+                    TradePosition = entry,
+                    PositionType = "Entry",
+                    BarIndex = entry.BarIndex
+                });
+
+            m_JobStat.AddTradeSignal(new TradeSignalStat
+            {
+                Reference = reference,
+                TradePosition = exit,
+                PositionType = "Exit",
+                BarIndex = entry.BarIndex
+            });
             
         }
 
         private static void OnRegressionJobFinished(int reference)
         {
             Console.WriteLine("Processing last day's regression job with id: {0}", currentJob.RegressionJobId);
-            DataManager.SetRegressionJobToFinish(currentJob.RegressionJobId);
+           DataManager.SetRegressionJobToFinish(currentJob.RegressionJobId);
+
+            JobDataManager jobdataMgr = new JobDataManager();
+
+            foreach (BarDataStat barDataStat in m_JobStat.Bars)
+            {
+                DataEntity.Bar barData = new DataEntity.Bar();
+                barData.BarMin =(float) Convert.ToDecimal(barDataStat.Bar.Min);
+                barData.BarMax = (float)Convert.ToDecimal(barDataStat.Bar.Max);
+                jobdataMgr.AddRegressionJobBar(m_JobStat.JobId, barDataStat.Index, barData);
+            }
+
+            //save the tickdatas
+            jobdataMgr.AddRegressionJobTickDatas(m_JobStat.GetAllTickDatas()
+                .Where(x=>x.Item2.Ask>0 || x.Item2.Bid>0)
+                .Select(x => new DataEntity.RegressionJobTickData
+            {
+                RegressionJobId = m_JobStat.JobId,
+                BarIndex = x.Item1,
+                Ask = (float?)x.Item2.Ask,
+                AskQty = (float?)x.Item2.AskQty,
+                BidQty = (float?)x.Item2.BidQty,
+                Bid = (float?)x.Item2.Bid
+            }).ToList());
+
+            //add entry signals
+            jobdataMgr.AddEntrySignals(m_JobStat.GetEntrySignals().Select(x=>new DataEntity.RegressionJobTradeSignal
+                {
+                    BarIndex = x.BarIndex,
+                    RegressionJobId = m_JobStat.JobId
+                }).ToList());
+            
+            //add trade positions
+            jobdataMgr.AddTradeSignals(m_JobStat.GetTradeSignals().Select(x=>new DataEntity.RegressionJobTradePosition
+                {
+                    RegressionJobId = m_JobStat.JobId,
+                    BarIndex = x.BarIndex,
+                    Reference = x.Reference,
+                    Direction = x.TradePosition.Direction.ToString(),
+                    Lots = x.TradePosition.Lots,
+                    Price =(float) x.TradePosition.Price,
+                    Stop =(float) x.TradePosition.Stop,
+                    Target =(float) x.TradePosition.Target,
+                    TradePositionType = x.PositionType
+                }).ToList());
 
             //wait for 30 seconds to ensure last date data is regressed //TODO: Tick data type for all published
             
             Thread.Sleep(30000);
+            
+            //saves the stat data in the database
+           // var serializer=new StringSerializer();
+           // string serialized= serializer.Serialize(m_JobStat);
+
+           // DataManager.AddRegressionJobStat(currentJob.RegressionJobId, serialized);
             m_RegressionEndFlagEvent.Set();
             Console.WriteLine("Finished regression job with id: {0}", currentJob.RegressionJobId);
             Console.WriteLine("...............................................................................");
