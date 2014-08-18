@@ -1,29 +1,45 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PostLoginDefault.Master" AutoEventWireup="true" CodeBehind="AddToRegression.aspx.cs" Inherits="DATSYS.TradingModel.RegressionWebClient.Application.AddToRegression" %>
+<%@ Register assembly="Telerik.Web.UI" namespace="Telerik.Web.UI" tagprefix="telerik" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    
+   
     <div>
         <table style="width:95%" border="1">
             <tr>
+                
+                <td>Enter a name or description </td>
+                <td>
+                    <telerik:RadTextBox runat="server" ID="txtRegressionName" Skin="MetroTouch" Width="300px">
+                        
+                    </telerik:RadTextBox>
+                </td>
+            </tr>
+            
+            <tr>
                 <td>Select Instrument code</td>
                 <td>
-                    <asp:DropDownList runat="server" ID="ddInstrumentCode">
+                    
+                   
+                    <telerik:RadComboBox ID="cmbInstrumentCode" Runat="server" Skin="MetroTouch">
                         <Items>
-                            <asp:ListItem Text="FGBL" Value="FGBL" Selected="True"></asp:ListItem>
-                            <asp:ListItem Text="FGBM" Value="FGBM"></asp:ListItem>
+                            <telerik:RadComboBoxItem runat="server" Text="FGBL" Value="FGBL"/>
+                            <telerik:RadComboBoxItem runat="server" Text="FGBM" Value="FGBM"/>
                         </Items>
-                    </asp:DropDownList>
+                    </telerik:RadComboBox>
                 </td>
             </tr>
             <tr>
                 <td>Select Strategy</td>
                 <td>
-                    <asp:DropDownList runat="server" ID="ddStrategy">
+                   
+                    <telerik:RadComboBox ID="cmbStrategy" Runat="server" Skin="MetroTouch" Width="300px">
                         <Items>
-                            <asp:ListItem Text="StrategySevenBar" Value="StrategySevenBar" Selected="True"></asp:ListItem>
-                            <asp:ListItem Text="StrategyDailySevenBar" Value="StrategyDailySevenBar"></asp:ListItem>
+                            <telerik:RadComboBoxItem runat="server" Text="Strategy 7 Bar" Value="StrategySevenBar"/>
+                            <telerik:RadComboBoxItem runat="server" Text="Strategy Daily 7 Bar" Value="StrategyDailySevenBar"/>
                         </Items>
-                    </asp:DropDownList>
+                    </telerik:RadComboBox>
                 </td>
             </tr>
             <tr>
@@ -31,18 +47,39 @@
                 <td>
                     <div style="float: left;">
                     Start date
-                    <asp:Calendar runat="server" ID="calStartDate"></asp:Calendar>
+                    
+                        <telerik:RadDatePicker runat="server" Skin="MetroTouch" ID="startDate"></telerik:RadDatePicker>
                     </div>
-                    <div style="float: right;">
+                    <div style="float: left;">
                     End date
-                    <asp:Calendar runat="server" ID="calEndDate"></asp:Calendar>
+                   
+                        <telerik:RadDatePicker runat="server" Skin="MetroTouch" ID="endDate"></telerik:RadDatePicker>
                     </div>
+                </td>
+            </tr>
+            <tr>
+                <td> Select Environment(s)</td>
+                <td> Micro
+                     <telerik:RadComboBox runat="server" ID="cmbMicroStrategy" Skin="MetroTouch" Width="250px">
+                         <Items>
+                             <telerik:RadComboBoxItem runat="server" Text="Micro Environment" Value="Micro"/>
+                             
+                         </Items>
+                     </telerik:RadComboBox>
+                    Macro
+                     <telerik:RadComboBox runat="server" ID="cmbMacroStrategy" Skin="MetroTouch" Width="250px">
+                         <Items>
+                             <telerik:RadComboBoxItem runat="server" Text="Macro Environment" Value="Macro"/>
+                             
+                         </Items>
+                     </telerik:RadComboBox>
                 </td>
             </tr>
             <tr>
                 <td>Select Bar Interval</td>
                 <td>
-                    <asp:TextBox runat="server" TextMode="SingleLine" Text="30" ID="txtBarInterval"></asp:TextBox>
+                    <telerik:RadNumericTextBox runat="server" ID="barInterval" Skin="MetroTouch" MinValue="1"></telerik:RadNumericTextBox>
+                   
                 </td>
             </tr>
             <tr>
@@ -53,7 +90,8 @@
             </tr>
             <tr>
                 <td colspan="2" style="text-align: center; padding: 10px;">
-                    <asp:Button runat="server" ID="btnadd" Text="Add to regression"/>
+                    <telerik:RadButton runat="server" ID="btnaddregression" Text="Start Regression" Skin="MetroTouch"></telerik:RadButton>
+                   
                 </td>
                 
             </tr>
@@ -61,4 +99,5 @@
         <br/><br/>
         <asp:Literal runat="server" ID="literalMsg"></asp:Literal>
     </div>
+       
 </asp:Content>

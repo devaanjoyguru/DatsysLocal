@@ -10,6 +10,7 @@
           <EntitySet Name="DailyPriceBars" EntityType="DatsystemsModel.Store.DailyPriceBars" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RegressionJobBars" EntityType="DatsystemsModel.Store.RegressionJobBars" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RegressionJobs" EntityType="DatsystemsModel.Store.RegressionJobs" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RegressionJobsEquity" EntityType="DatsystemsModel.Store.RegressionJobsEquity" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RegressionJobStat" EntityType="DatsystemsModel.Store.RegressionJobStat" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RegressionJobTickData" EntityType="DatsystemsModel.Store.RegressionJobTickData" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RegressionJobTradePositions" EntityType="DatsystemsModel.Store.RegressionJobTradePositions" store:Type="Tables" Schema="dbo" />
@@ -75,6 +76,16 @@
           <Property Name="RegressionIntraDayEnvironment" Type="varchar" MaxLength="150" />
           <Property Name="JobStatus" Type="varchar" MaxLength="50" />
           <Property Name="FinishedAt" Type="datetime" />
+          <Property Name="RegressionDisplayName" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="RegressionJobsEquity">
+          <Key>
+            <PropertyRef Name="RegressionJobId" />
+            <PropertyRef Name="Reference" />
+          </Key>
+          <Property Name="RegressionJobId" Type="int" Nullable="false" />
+          <Property Name="Reference" Type="int" Nullable="false" />
+          <Property Name="Pnl" Type="real" Nullable="false" />
         </EntityType>
         <EntityType Name="RegressionJobStat">
           <Key>
@@ -180,6 +191,7 @@
           <EntitySet Name="RegressionJobTickDatas" EntityType="DatsystemsModel.RegressionJobTickData" />
           <EntitySet Name="RegressionJobTradePositions" EntityType="DatsystemsModel.RegressionJobTradePosition" />
           <EntitySet Name="RegressionJobTradeSignals" EntityType="DatsystemsModel.RegressionJobTradeSignal" />
+          <EntitySet Name="RegressionJobsEquities" EntityType="DatsystemsModel.RegressionJobsEquity" />
         </EntityContainer>
         <EntityType Name="Bar">
           <Key>
@@ -274,6 +286,7 @@
           <Property Name="RegressionIntraDayEnvironment" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="JobStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="FinishedAt" Type="DateTime" Precision="3" />
+          <Property Type="String" Name="RegressionDisplayName" MaxLength="250" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="RegressionJobStat">
           <Key>
@@ -326,6 +339,15 @@
           </Key>
           <Property Type="Int32" Name="RegressionJobId" Nullable="false" />
           <Property Type="Int32" Name="BarIndex" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RegressionJobsEquity">
+          <Key>
+            <PropertyRef Name="RegressionJobId" />
+            <PropertyRef Name="Reference" />
+          </Key>
+          <Property Type="Int32" Name="RegressionJobId" Nullable="false" />
+          <Property Type="Int32" Name="Reference" Nullable="false" />
+          <Property Type="Single" Name="Pnl" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -397,6 +419,7 @@
           <EntitySetMapping Name="RegressionJobs">
             <EntityTypeMapping TypeName="DatsystemsModel.RegressionJob">
               <MappingFragment StoreEntitySet="RegressionJobs">
+                <ScalarProperty Name="RegressionDisplayName" ColumnName="RegressionDisplayName" />
                 <ScalarProperty Name="FinishedAt" ColumnName="FinishedAt" />
                 <ScalarProperty Name="JobStatus" ColumnName="JobStatus" />
                 <ScalarProperty Name="RegressionIntraDayEnvironment" ColumnName="RegressionIntraDayEnvironment" />
@@ -466,6 +489,15 @@
             <EntityTypeMapping TypeName="DatsystemsModel.RegressionJobTradeSignal">
               <MappingFragment StoreEntitySet="RegressionJobTradeSignals">
                 <ScalarProperty Name="BarIndex" ColumnName="BarIndex" />
+                <ScalarProperty Name="RegressionJobId" ColumnName="RegressionJobId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegressionJobsEquities">
+            <EntityTypeMapping TypeName="DatsystemsModel.RegressionJobsEquity">
+              <MappingFragment StoreEntitySet="RegressionJobsEquity">
+                <ScalarProperty Name="Pnl" ColumnName="Pnl" />
+                <ScalarProperty Name="Reference" ColumnName="Reference" />
                 <ScalarProperty Name="RegressionJobId" ColumnName="RegressionJobId" />
               </MappingFragment>
             </EntityTypeMapping>

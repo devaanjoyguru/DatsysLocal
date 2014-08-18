@@ -1,5 +1,7 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="PostLoginDefault.master.cs" Inherits="DATSYS.TradingModel.RegressionWebClient.PostLoginDefault" %>
 
+<%@ Register assembly="Telerik.Web.UI" namespace="Telerik.Web.UI" tagprefix="telerik" %>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,11 +10,19 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body>
+<body  style="background-image: url(../Images/backstrip.jpg); color: white; font-family: Helvetica">
     <form id="form1" runat="server">
+        <telerik:RadScriptManager runat="server" ID="scriptMgr"></telerik:RadScriptManager>
     <div>
-        <asp:HyperLink runat="server" Text="Add new regression" NavigateUrl="Application/AddToRegression.aspx"></asp:HyperLink>
-        <asp:HyperLink runat="server" Text="View regression jobs" NavigateUrl="Application/ViewRegressionJobs.aspx"></asp:HyperLink>
+        
+        <telerik:RadTabStrip ID="maintab" runat="server" Skin="MetroTouch">
+            <Tabs>
+                <telerik:RadTab runat="server" Text="Start new Regression" NavigateUrl="~/Application/AddToRegression.aspx"></telerik:RadTab>
+                <telerik:RadTab runat="server" Text="View Regressions" NavigateUrl="Application/ViewRegressionJobs.aspx"></telerik:RadTab>
+                
+            </Tabs>
+        </telerik:RadTabStrip>
+   
     </div>
     <div>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">

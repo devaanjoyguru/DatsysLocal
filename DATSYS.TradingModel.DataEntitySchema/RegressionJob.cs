@@ -27,5 +27,6 @@ namespace DATSYS.TradingModel.DataEntitySchema
         public string RegressionIntraDayEnvironment { get; set; }
         public string JobStatus { get; set; }
         public Nullable<System.DateTime> FinishedAt { get; set; }
+        public string RegressionDisplayName { get; set; }
     }
 }

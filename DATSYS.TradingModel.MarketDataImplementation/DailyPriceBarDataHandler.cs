@@ -17,6 +17,7 @@ namespace DATSYS.TradingModel.MarketDataImplementation
         private readonly TickDataHandler _tickDataManager;
         private int currentRegressionDateIndex = -1;
         private int offsetIndex=0;
+        private DataManager _dataManager = new DataManager();
 
         public DailyPriceBarDataHandler(string instrumentCode,
             DateTime startDate, DateTime endDate, TickDataHandler tickDataManager)
@@ -37,7 +38,7 @@ namespace DATSYS.TradingModel.MarketDataImplementation
 
         public void Fill()
         {
-            var dailyPriceBars= DataManager.GetDailyPriceBarsAll(_instrumentCode);
+            var dailyPriceBars= _dataManager.GetDailyPriceBarsAll(_instrumentCode);
 
             _dataDailyBars=new Dictionary<int, MarketTickDataDailyBar>();
 

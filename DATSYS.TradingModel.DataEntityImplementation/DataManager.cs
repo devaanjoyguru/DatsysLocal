@@ -9,12 +9,12 @@ using Bar = DATSYS.TradingModel.DataEntitySchema.Bar;
 
 namespace DATSYS.TradingModel.DataEntityImplementation
 {
-    public static class DataManager
+    public  class DataManager
     {
-        static DatsystemsEntities dbcontext=new DatsystemsEntities();
+         DatsystemsEntities dbcontext=new DatsystemsEntities();
         private const float _badDataMaxLimit = 2147483648;
         
-        public static List<MarketTickData> GetMarketTickData(DateTime startDate, DateTime endDate, string instrumentCode)
+        public  List<MarketTickData> GetMarketTickData(DateTime startDate, DateTime endDate, string instrumentCode)
         {
             return (from stagingdata in dbcontext.StagingTickDatas
                     where
@@ -41,7 +41,7 @@ namespace DATSYS.TradingModel.DataEntityImplementation
                         }).OrderBy(x=>x.Timestamp).ToList();
         }
 
-        public static List<MarketTickDataDailyBar> GetDailyPriceBarsAll(string instrumentCode)
+        public List<MarketTickDataDailyBar> GetDailyPriceBarsAll(string instrumentCode)
         {
             return (from dailypricedata in dbcontext.DailyPriceBars
                                   where dailypricedata.InstrumentCode.Equals(instrumentCode)
@@ -58,26 +58,42 @@ namespace DATSYS.TradingModel.DataEntityImplementation
 
         }
 
-        public static int AddRegressionJob(string instrumentCode, DateTime startDate, DateTime endDate,
-            int barInterval, string strategyName, bool isDaily)
+        public int AddRegressionJob(string instrumentCode, DateTime startDate, DateTime endDate,
+            int barInterval, string strategyName, bool isDaily, string name)
         {
-           dbcontext.RegressionJob_Insert(instrumentCode, startDate, endDate, barInterval, strategyName,
-                isDaily);
+            dbcontext.RegressionJobs.Add(new RegressionJob
+                {
+                    InstrumentCode = instrumentCode,
+                    JobStatus = "Pending",
+                    FinishedAt = null,
+                    RegressionBarInterval = barInterval,
+                    RegressionDisplayName = name,
+                    RegressionEndDate = endDate,
+                    RegressionStartDate = startDate,
+                    RegressionIntraDayEnvironment = null,
+                    RegressionIsDaily = isDaily,
+                    RegressionMacroEnvironment = null,
+                    RegressionMicroEnvironment = null,
+                    RegressionStrategyName = name,
+                    SubmittedAt = DateTime.UtcNow
+                });
+           //dbcontext.RegressionJob_Insert(instrumentCode, startDate, endDate, barInterval, strategyName,
+             //   isDaily);
             return dbcontext.SaveChanges();
 
         }
 
-        public static List<RegressionJob> GetRegressionJobs()
+        public List<RegressionJob> GetRegressionJobs()
         {
             return dbcontext.RegressionJobs.ToList();
         }
 
-        public static List<RegressionJob> GetPendingRegressionJobs()
+        public List<RegressionJob> GetPendingRegressionJobs()
         {
             return dbcontext.RegressionJobs.Where(x => x.JobStatus.Equals("Pending")).ToList();
         }
 
-        public static List<MarketTickData> GeMarketTickDatasForBar(string instrumentCode, long startTimeStamp,
+        public List<MarketTickData> GeMarketTickDatasForBar(string instrumentCode, long startTimeStamp,
             long endTimeStamp)
         {
           return dbcontext.StagingTickDatas.Where(
@@ -100,7 +116,7 @@ namespace DATSYS.TradingModel.DataEntityImplementation
 
         #region UPDATES
 
-        public static void SetRegressionJobToFinish(int jobid)
+        public void SetRegressionJobToFinish(int jobid)
         {
             dbcontext.RegressionJob_SetFinished(jobid);
             dbcontext.SaveChanges();
@@ -110,7 +126,7 @@ namespace DATSYS.TradingModel.DataEntityImplementation
 
         #region INSERT
 
-        public static void AddRegressionJobStat(int jobId, string jobStatData)
+        public void AddRegressionJobStat(int jobId, string jobStatData)
         {
             dbcontext.RegressionJobStats.Add(new RegressionJobStat
                 {
@@ -167,6 +183,12 @@ namespace DATSYS.TradingModel.DataEntityImplementation
         public void AddTradeSignals(List<RegressionJobTradePosition> tradePositions)
         {
             datsys.RegressionJobTradePositions.AddRange(tradePositions);
+            datsys.SaveChanges();
+        }
+
+        public void AddEquity(List<RegressionJobsEquity> equities)
+        {
+            datsys.RegressionJobsEquities.AddRange(equities);
             datsys.SaveChanges();
         }
     }

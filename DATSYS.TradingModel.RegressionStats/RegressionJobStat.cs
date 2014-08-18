@@ -35,7 +35,8 @@ namespace DATSYS.TradingModel.RegressionStats
         private List<Tuple<int, MarketTickData>> m_tickDatas = new List<Tuple<int, MarketTickData>>();
         private List<EntrySignalStat> m_EntrySignals = new List<EntrySignalStat>();
         private List<TradeSignalStat> m_TradeSignals=new List<TradeSignalStat>();
-        private List<EquityStat> m_EquityStats=new List<EquityStat>(); 
+        private List<EquityStat> m_EquityStats=new List<EquityStat>();
+        private DataManager _dataManager = new DataManager();
 
         public void AddBar(BarDataStat barDataStat)
         {
@@ -90,7 +91,7 @@ namespace DATSYS.TradingModel.RegressionStats
                     Bar bar = m_barDataStats.ContainsKey(index) ?  m_barDataStats[index].Bar :null;
 
                     if(bar!=null)
-                    return DataManager.GeMarketTickDatasForBar(InstrumentCode, bar.StartTimestamp, bar.EndTimestamp);
+                    return _dataManager.GeMarketTickDatasForBar(InstrumentCode, bar.StartTimestamp, bar.EndTimestamp);
                 }
 
                 return null;

@@ -10,13 +10,13 @@ namespace DATSYS.TradingModel.RegressionWebClient.Application
 {
     public partial class AddToRegression : System.Web.UI.Page
     {
-        
+        private DataManager _dataManager = new DataManager();
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            btnadd.Click += btnadd_Click;
-            calStartDate.TodaysDate=new DateTime(2012,2,1);
-            calEndDate.TodaysDate=new DateTime(2012,2,10);
+            btnaddregression.Click += btnadd_Click;
+            //calStartDate.TodaysDate=new DateTime(2012,2,1);
+            //calEndDate.TodaysDate=new DateTime(2012,2,10);
         }
 
         void btnadd_Click(object sender, EventArgs e)
@@ -24,14 +24,15 @@ namespace DATSYS.TradingModel.RegressionWebClient.Application
             try
             {
 
-            string instrumentCode = ddInstrumentCode.SelectedValue;
-            DateTime startDate = calStartDate.SelectedDate.Date;
-            DateTime endDate = calEndDate.SelectedDate.Date;
-            string strategyName = ddStrategy.SelectedValue;
-            int barInterval = Convert.ToInt32(txtBarInterval.Text);
+            string instrumentCode = cmbInstrumentCode.SelectedValue;
+                DateTime sDate = startDate.SelectedDate.Value; //calStartDate.SelectedDate.Date;
+            DateTime eDate = endDate.SelectedDate.Value;
+            string strategyName = cmbStrategy.SelectedValue;
+            int barinterval = Convert.ToInt32(barInterval.Value);
             bool isdaily = chkIsDaily.Checked;
+                string regressionName = txtRegressionName.Text;
 
-           var jobId=  DataManager.AddRegressionJob(instrumentCode,startDate,endDate,barInterval,strategyName,isdaily);
+           var jobId=  _dataManager.AddRegressionJob(instrumentCode,sDate,eDate,barinterval,strategyName,isdaily, regressionName);
 
                 literalMsg.Text = string.Format("<strong> The regression job is saved. </strong>", jobId);
 

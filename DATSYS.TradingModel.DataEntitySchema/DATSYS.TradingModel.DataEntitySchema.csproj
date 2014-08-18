@@ -86,6 +86,9 @@
     <Compile Include="RegressionJobBar.cs">
       <DependentUpon>DatsysDbEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="RegressionJobsEquity.cs">
+      <DependentUpon>DatsysDbEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="RegressionJobStat.cs">
       <DependentUpon>DatsysDbEntity.tt</DependentUpon>
     </Compile>

@@ -40,6 +40,7 @@ namespace DATSYS.TradingModel.RegressionRunner
         private static double pnl;
         private static ManualResetEvent m_RegressionEndFlagEvent;
         private static RegressionJobStat m_JobStat;
+        private static DataManager _dataManager = new DataManager();
 
         static RegressionRunner()
         {
@@ -67,7 +68,7 @@ namespace DATSYS.TradingModel.RegressionRunner
             while (isRun)
             {
                 //get the batch of jobs to be processed
-                var jobs = DataManager.GetPendingRegressionJobs();
+                var jobs = _dataManager.GetPendingRegressionJobs();
 
                 foreach (var job in jobs)
                 {
@@ -157,11 +158,17 @@ namespace DATSYS.TradingModel.RegressionRunner
 
         private static void OnTradePositionReceived(int reference, TradeInstruction entry, TradeInstruction exit)
         {
+            double tradePositionPnL = 0;
+
             if (exit != null)
-                pnl += (exit.Direction == TradeDirection.Short)
+            {
+                tradePositionPnL=(exit.Direction == TradeDirection.Short)
                            ? exit.Price - entry.Price
                            : entry.Price - exit.Price;
+                pnl += tradePositionPnL;
 
+            }
+            
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Trade position closed for reference :{0} | Entry :{1}{2} | Exit :{3}{4}",
                 reference, entry.Price, entry.Direction, exit.Price, exit.Direction);
@@ -183,13 +190,20 @@ namespace DATSYS.TradingModel.RegressionRunner
                 PositionType = "Exit",
                 BarIndex = entry.BarIndex
             });
+
+            m_JobStat.AddEquityStat(
+                new EquityStat
+                    {
+                        Reference = reference, 
+                        PnL = tradePositionPnL
+                    });
             
         }
 
         private static void OnRegressionJobFinished(int reference)
         {
             Console.WriteLine("Processing last day's regression job with id: {0}", currentJob.RegressionJobId);
-           DataManager.SetRegressionJobToFinish(currentJob.RegressionJobId);
+           _dataManager.SetRegressionJobToFinish(currentJob.RegressionJobId);
 
             JobDataManager jobdataMgr = new JobDataManager();
 
@@ -201,8 +215,8 @@ namespace DATSYS.TradingModel.RegressionRunner
                 jobdataMgr.AddRegressionJobBar(m_JobStat.JobId, barDataStat.Index, barData);
             }
 
-            //save the tickdatas
-            jobdataMgr.AddRegressionJobTickDatas(m_JobStat.GetAllTickDatas()
+            //save the tickdatas//TODO: TICK DATA SHOULD NOT BE DOUBLY STORED BUT READ FROM THE TICK DB
+           /* jobdataMgr.AddRegressionJobTickDatas(m_JobStat.GetAllTickDatas()
                 .Where(x=>x.Item2.Ask>0 || x.Item2.Bid>0)
                 .Select(x => new DataEntity.RegressionJobTickData
             {
@@ -212,7 +226,7 @@ namespace DATSYS.TradingModel.RegressionRunner
                 AskQty = (float?)x.Item2.AskQty,
                 BidQty = (float?)x.Item2.BidQty,
                 Bid = (float?)x.Item2.Bid
-            }).ToList());
+            }).ToList());*/
 
             //add entry signals
             jobdataMgr.AddEntrySignals(m_JobStat.GetEntrySignals().Select(x=>new DataEntity.RegressionJobTradeSignal
@@ -233,6 +247,14 @@ namespace DATSYS.TradingModel.RegressionRunner
                     Stop =(float) x.TradePosition.Stop,
                     Target =(float) x.TradePosition.Target,
                     TradePositionType = x.PositionType
+                }).ToList());
+
+            //add equity
+            jobdataMgr.AddEquity(m_JobStat.GetEquityStats().Select(x=>new DataEntity.RegressionJobsEquity
+                {
+                    RegressionJobId = m_JobStat.JobId,
+                    Reference = x.Reference,
+                    Pnl =(float) x.PnL
                 }).ToList());
 
             //wait for 30 seconds to ensure last date data is regressed //TODO: Tick data type for all published

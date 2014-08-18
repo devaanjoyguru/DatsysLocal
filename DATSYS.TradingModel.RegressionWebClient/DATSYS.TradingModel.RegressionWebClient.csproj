@@ -105,6 +105,16 @@
     <Reference Include="Microsoft.AspNet.FriendlyUrls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <HintPath>..\packages\Microsoft.AspNet.FriendlyUrls.Core.1.0.0\lib\net40\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.Web.Design, Version=2013.1.417.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files (x86)\Telerik\RadControls for ASP.NET AJAX Q1 2013\Bin40\Telerik.Web.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Web.UI">
+      <HintPath>..\..\..\..\Program Files (x86)\Telerik\RadControls for ASP.NET AJAX Q1 2013\Bin40\Telerik.Web.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Web.UI.Skins">
+      <HintPath>..\..\..\..\Program Files (x86)\Telerik\RadControls for ASP.NET AJAX Q1 2013\Bin40\Telerik.Web.UI.Skins.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
@@ -114,6 +124,7 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
     <Content Include="Application\AddToRegression.aspx" />
+    <Content Include="Application\TelerikWebForm.aspx" />
     <Content Include="Application\ViewRegressionJobs.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\Site.css" />
@@ -172,6 +183,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Images\accent.png" />
+    <Content Include="Images\backstrip.jpg" />
     <Content Include="Images\bullet.png" />
     <Content Include="Images\heroAccent.png" />
     <Content Include="Images\orderedList0.png" />
@@ -216,6 +228,13 @@
     </Compile>
     <Compile Include="Application\AddToRegression.aspx.designer.cs">
       <DependentUpon>AddToRegression.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Application\TelerikWebForm.aspx.cs">
+      <DependentUpon>TelerikWebForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Application\TelerikWebForm.aspx.designer.cs">
+      <DependentUpon>TelerikWebForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="Application\ViewRegressionJobs.aspx.cs">
       <DependentUpon>ViewRegressionJobs.aspx</DependentUpon>

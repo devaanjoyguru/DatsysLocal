@@ -37,6 +37,7 @@ namespace DATSYS.TradingModel.DataEntitySchema
         public DbSet<RegressionJobTickData> RegressionJobTickDatas { get; set; }
         public DbSet<RegressionJobTradePosition> RegressionJobTradePositions { get; set; }
         public DbSet<RegressionJobTradeSignal> RegressionJobTradeSignals { get; set; }
+        public DbSet<RegressionJobsEquity> RegressionJobsEquities { get; set; }
     
         public virtual int RegressionJob_Insert(string instrumentCode, Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, Nullable<int> barInterval, string strategyName, Nullable<bool> isDaily)
         {

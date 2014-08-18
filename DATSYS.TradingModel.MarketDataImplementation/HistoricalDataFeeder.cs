@@ -11,6 +11,7 @@ namespace DATSYS.TradingModel.MarketDataImplementation
         private FeederProperties _properties;
         private OnFeedFinished _onFeedFinishedCallback;
         private readonly BinarySerializer _binarySerializer;
+        private DataManager _dataManager=new DataManager();
        
         public HistoricalDataFeeder()
         {
@@ -32,7 +33,7 @@ namespace DATSYS.TradingModel.MarketDataImplementation
                         throw new Exception("No Start date and/or end date defined");
                          
                     //get the market data
-                    var instrumentMktData = DataManager.GetMarketTickData(props.StartDate.Value, props.EndDate.Value,
+                    var instrumentMktData = _dataManager.GetMarketTickData(props.StartDate.Value, props.EndDate.Value,
                                                                           props.InstrumentCode);
 
 

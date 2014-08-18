@@ -13,49 +13,76 @@ namespace DATSYS.TradingModel.RegressionWebClient.Application {
     public partial class AddToRegression {
         
         /// <summary>
-        /// ddInstrumentCode control.
+        /// txtRegressionName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddInstrumentCode;
+        protected global::Telerik.Web.UI.RadTextBox txtRegressionName;
         
         /// <summary>
-        /// ddStrategy control.
+        /// cmbInstrumentCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddStrategy;
+        protected global::Telerik.Web.UI.RadComboBox cmbInstrumentCode;
         
         /// <summary>
-        /// calStartDate control.
+        /// cmbStrategy control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar calStartDate;
+        protected global::Telerik.Web.UI.RadComboBox cmbStrategy;
         
         /// <summary>
-        /// calEndDate control.
+        /// startDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar calEndDate;
+        protected global::Telerik.Web.UI.RadDatePicker startDate;
         
         /// <summary>
-        /// txtBarInterval control.
+        /// endDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBarInterval;
+        protected global::Telerik.Web.UI.RadDatePicker endDate;
+        
+        /// <summary>
+        /// cmbMicroStrategy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadComboBox cmbMicroStrategy;
+        
+        /// <summary>
+        /// cmbMacroStrategy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadComboBox cmbMacroStrategy;
+        
+        /// <summary>
+        /// barInterval control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadNumericTextBox barInterval;
         
         /// <summary>
         /// chkIsDaily control.
@@ -67,13 +94,13 @@ namespace DATSYS.TradingModel.RegressionWebClient.Application {
         protected global::System.Web.UI.WebControls.CheckBox chkIsDaily;
         
         /// <summary>
-        /// btnadd control.
+        /// btnaddregression control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnadd;
+        protected global::Telerik.Web.UI.RadButton btnaddregression;
         
         /// <summary>
         /// literalMsg control.
