@@ -20,5 +20,11 @@ namespace DATSYS.TradingModel.Contract.Entities
         public TradePositionType PositionType { get; set; }
 
         public int BarIndex { get; set; }
+
+        public string InstrumentCode { get; set; }
+
+        public int TickValue { get; set; }
+
+        
     }
 }

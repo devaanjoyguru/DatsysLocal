@@ -16,7 +16,7 @@ namespace DATSYS.TradingModel.MoneyManager
 
         MoneyManagerModel ManagerModel { get; set; }
 
-        double CurrentTradingAccountAmountAvailableToTrade { get; set; }
+        double CurrentTradingAccountAmountAvailableToTrade { get; }
 
         double CurrentTradingAccountAmount { get; }
 
