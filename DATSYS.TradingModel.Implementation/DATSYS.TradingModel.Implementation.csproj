@@ -53,6 +53,10 @@
       <Project>{402580E9-C952-4A38-9799-E762951E792A}</Project>
       <Name>DATSYS.TradingModel.MarketDataContracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DATSYS.TradingModel.MoneyManager\DATSYS.TradingModel.MoneyManager.csproj">
+      <Project>{EF13B272-E3DA-4341-A78F-B7EDA79928ED}</Project>
+      <Name>DATSYS.TradingModel.MoneyManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
