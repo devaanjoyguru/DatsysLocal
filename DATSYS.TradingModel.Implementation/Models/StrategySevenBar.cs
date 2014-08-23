@@ -3,20 +3,22 @@ using DATSYS.TradingModel.Contract.Entities;
 using DATSYS.TradingModel.Contract.Interfaces;
 using DATSYS.TradingModel.Implementation.Entities;
 using DATSYS.TradingModel.MarketDataContracts;
+using DATSYS.TradingModel.MoneyManager;
 
 namespace DATSYS.TradingModel.Implementation.Models
 {
     public class StrategySevenBar : ITradeModel
     {
         
-        private int lots = 10;
+        
         private int lotsNotFilled;
         private int _countOfBarsFromLastSignal = 0;
         private StrategyParameter Parameters=new StrategyParameter();
         private IMarketBarDataManager BARDATA;
         private IMarketTickDataManager TICKDATA;
         private IMarketDailyBarDataManager DAILYBARDATA;
-        
+        private IMoneyManager moneyManager;
+        private int lots = 10;
 
         public bool EntrySignal()
         {

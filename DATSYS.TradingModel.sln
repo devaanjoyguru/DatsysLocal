@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DATSYS.TradingModel.Contract", "DATSYS.TradingModel.Contract\DATSYS.TradingModel.Contract.csproj", "{A714BBCC-6EBB-4F24-8211-7C5157A3DC98}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DATSYS.TradingModel.Implementation", "DATSYS.TradingModel.Implementation\DATSYS.TradingModel.Implementation.csproj", "{CB1C77B1-0FBC-4509-99DB-34D6EDF69559}"
@@ -36,6 +34,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DATSYS.TradingModel.RegressionStats", "DATSYS.TradingModel.RegressionStats\DATSYS.TradingModel.RegressionStats.csproj", "{570B40CB-BBE6-481F-A3B7-1286DDAD226D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DATSYS.TradingModel.RegressionTests", "DATSYS.TradingModel.RegressionTests\DATSYS.TradingModel.RegressionTests.csproj", "{D0E6C5CD-749F-4983-BA6C-8D5A798FC17C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DATSYS.TradingModel.MoneyManager", "DATSYS.TradingModel.MoneyManager\DATSYS.TradingModel.MoneyManager.csproj", "{EF13B272-E3DA-4341-A78F-B7EDA79928ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -217,6 +217,16 @@ Global
 		{D0E6C5CD-749F-4983-BA6C-8D5A798FC17C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{D0E6C5CD-749F-4983-BA6C-8D5A798FC17C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{D0E6C5CD-749F-4983-BA6C-8D5A798FC17C}.Release|x86.ActiveCfg = Release|Any CPU
+		{EF13B272-E3DA-4341-A78F-B7EDA79928ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF13B272-E3DA-4341-A78F-B7EDA79928ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF13B272-E3DA-4341-A78F-B7EDA79928ED}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EF13B272-E3DA-4341-A78F-B7EDA79928ED}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EF13B272-E3DA-4341-A78F-B7EDA79928ED}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EF13B272-E3DA-4341-A78F-B7EDA79928ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF13B272-E3DA-4341-A78F-B7EDA79928ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF13B272-E3DA-4341-A78F-B7EDA79928ED}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EF13B272-E3DA-4341-A78F-B7EDA79928ED}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EF13B272-E3DA-4341-A78F-B7EDA79928ED}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
