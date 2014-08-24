@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DATSYS.TradingModel.Contract.Entities;
+using DATSYS.TradingModel.Contract.Interfaces;
 
 namespace DATSYS.TradingModel.MoneyManager
 {
-    public interface IMoneyManager
+    public interface IMoneyManager : IStrategyMoneyManager
     {
         double TradingAccountAmount { get; set; }
-
-        double RiskPerTrade { get; set; }
 
         double TotalMaxRiskOnTradingAccount { get; set; }
 
@@ -26,13 +25,12 @@ namespace DATSYS.TradingModel.MoneyManager
 
         void AddTradeExit(TradeInstruction trade);
 
-        int GetLotSizeForCurrentTrade(TradeInstruction trade);
+        
     }
 
     public enum MoneyManagerModel
     {
         RiskPerTrade,
         Manual
-        
     }
 }

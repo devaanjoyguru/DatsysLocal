@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using DATSYS.TradingModel.Common;
+using DATSYS.TradingModel.MoneyManager;
 using DATSYS.TradingModel.Contract.Entities;
 using DATSYS.TradingModel.Contract.Interfaces;
 using DATSYS.TradingModel.DataEntityImplementation;
@@ -35,6 +35,7 @@ namespace DATSYS.TradingModel.RegressionRunner
         private static TickDataHandler tickDataHandler;
         private static BarDataHandler barDataHandler;
         private static DailyPriceBarDataHandler dailyPriceBarDataHandler;
+        private static MoneyManager.MoneyManager moneyManager;
         private static TickDataSubscriber tickDataSubscriber;
         private static List<TradingModelRunner> runners;
         private static double pnl;
@@ -85,6 +86,7 @@ namespace DATSYS.TradingModel.RegressionRunner
                     //set up consumers
                     tickDataSubscriber = new TickDataSubscriber();
                     tickDataHandler = new TickDataHandler(tickDataSubscriber);
+                    moneyManager=new MoneyManager.MoneyManager(100000,.01);
                     barDataHandler = new BarDataHandler(tickDataHandler, job.RegressionBarInterval.Value);
                     dailyPriceBarDataHandler=new DailyPriceBarDataHandler(job.InstrumentCode,
                         job.RegressionStartDate.Value, job.RegressionEndDate.Value,tickDataHandler);
@@ -126,7 +128,8 @@ namespace DATSYS.TradingModel.RegressionRunner
                                                           OnEntrySignalReceived,
                                                           OnTradePositionReceived,
                                                           OnRegressionJobFinished,
-                                                          OnTickDataUpdateReceived);
+                                                          OnTickDataUpdateReceived,
+                                                          moneyManager);
             runners.Add(tradeModelRunner);
         }
 

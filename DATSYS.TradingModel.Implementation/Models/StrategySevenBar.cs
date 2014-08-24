@@ -3,7 +3,7 @@ using DATSYS.TradingModel.Contract.Entities;
 using DATSYS.TradingModel.Contract.Interfaces;
 using DATSYS.TradingModel.Implementation.Entities;
 using DATSYS.TradingModel.MarketDataContracts;
-using DATSYS.TradingModel.MoneyManager;
+
 
 namespace DATSYS.TradingModel.Implementation.Models
 {
@@ -17,7 +17,7 @@ namespace DATSYS.TradingModel.Implementation.Models
         private IMarketBarDataManager BARDATA;
         private IMarketTickDataManager TICKDATA;
         private IMarketDailyBarDataManager DAILYBARDATA;
-        private IMoneyManager moneyManager;
+        private IStrategyMoneyManager MONEYMANAGER;
         private int lots = 10;
 
         public bool EntrySignal()
@@ -236,13 +236,13 @@ namespace DATSYS.TradingModel.Implementation.Models
                 var tradePosition = new TradeInstruction
                     {
                         Direction = TradeDirection.Long, 
-                        Lots = lots, 
                         PositionType = TradePositionType.Entry, 
                         Price = ask.Value, 
                         Stop = Parameters.StopPriceLong.Value, 
                         Target = ask.Value + Parameters.TargetTicks.Value
                     };
 
+                tradePosition.Lots = MONEYMANAGER.GetLotSize(tradePosition);
 
                 return tradePosition;
             }
@@ -290,11 +290,13 @@ namespace DATSYS.TradingModel.Implementation.Models
         
         public void SetHandlers(IMarketBarDataManager barDataMgr, 
             IMarketTickDataManager tickDataMgr,
-            IMarketDailyBarDataManager dailyBarDataManager)
+            IMarketDailyBarDataManager dailyBarDataManager,
+            IStrategyMoneyManager moneyManager)
         {
             BARDATA = barDataMgr;
             TICKDATA = tickDataMgr;
             DAILYBARDATA = dailyBarDataManager;
+            MONEYMANAGER = moneyManager;
         }
 
         public TradeInstruction TradeEntry()

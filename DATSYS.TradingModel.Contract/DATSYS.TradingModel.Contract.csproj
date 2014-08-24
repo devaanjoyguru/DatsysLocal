@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Entities\Enumeration.cs" />
     <Compile Include="Entities\TradeInstruction.cs" />
+    <Compile Include="Interfaces\IStrategyMoneyManager.cs" />
     <Compile Include="Interfaces\ITradeModel.cs" />
     <Compile Include="Interfaces\ITradePositionSignal.cs" />
     <Compile Include="Interfaces\ITradeSignal.cs" />

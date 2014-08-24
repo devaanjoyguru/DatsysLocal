@@ -14,6 +14,7 @@ namespace DATSYS.TradingModel.Implementation.Models
         private  IMarketBarDataManager _barDataManager;
         private  IMarketTickDataManager _tickDataManager;
         private  IMarketDailyBarDataManager _dailyBarDataManager;
+        private IStrategyMoneyManager _moneyManager;
         private StrategyParameter Parameters = new StrategyParameter();
 
         public TradeInstruction TradeEntry()
@@ -68,11 +69,13 @@ namespace DATSYS.TradingModel.Implementation.Models
         public void SetHandlers(
             IMarketBarDataManager barDataMgr, 
             IMarketTickDataManager tickDataMgr,
-            IMarketDailyBarDataManager dailyBarDataManager)
+            IMarketDailyBarDataManager dailyBarDataManager,
+            IStrategyMoneyManager moneyManager)
         {
             _barDataManager = barDataMgr;
             _tickDataManager = tickDataMgr;
             _dailyBarDataManager = dailyBarDataManager;
+            _moneyManager = moneyManager;
         }
 
         public void Reset()

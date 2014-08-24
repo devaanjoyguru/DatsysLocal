@@ -10,17 +10,30 @@ namespace DATSYS.TradingModel.MoneyManager
     {
         private double _amountForTradeAccount;
         private double _amountAvailableForTrade;
+        private double _riskPerTrade;
+        //TODO:
+        private bool _isManual = false;
 
-        public MoneyManager(double amountForTradeAccount)
+        public MoneyManager(double amountForTradeAccount, double riskPerTrade)
         {
             _amountForTradeAccount = amountForTradeAccount;
             _amountAvailableForTrade = amountForTradeAccount;
+            _riskPerTrade = riskPerTrade;
+        }
+
+        public void SetRiskPerTradeAsManual()
+        {
+            _isManual = true;
         }
 
         private List<TradeInstruction> trades=new List<TradeInstruction>(); 
 
         public double TradingAccountAmount { get; set; }
-        public double RiskPerTrade { get; set; }
+        public double RiskPerTrade
+        {
+            get { return _riskPerTrade; }
+            set { _riskPerTrade = value; }
+        }
         public double TotalMaxRiskOnTradingAccount { get; set; }
         public MoneyManagerModel ManagerModel { get; set; }
         public double CurrentTradingAccountAmountAvailableToTrade { 
@@ -29,6 +42,7 @@ namespace DATSYS.TradingModel.MoneyManager
         public double CurrentTradingAccountAmount {
             get { return _amountForTradeAccount; }
         }
+        //TODO:
         public double CurrentTradingAccountRisk { get; private set; }
         public void AddTradeEntry(TradeInstruction trade)
         {
@@ -50,7 +64,7 @@ namespace DATSYS.TradingModel.MoneyManager
         /// </summary>
         /// <param name="trade"></param>
         /// <returns></returns>
-        public int GetLotSizeForCurrentTrade(TradeInstruction trade)
+        public int GetLotSize(TradeInstruction trade)
         {
             double ticksInRisk = Math.Abs(trade.Price - trade.Stop);
            return Convert.ToInt32(CurrentTradingAccountAmountAvailableToTrade* RiskPerTrade/ticksInRisk);

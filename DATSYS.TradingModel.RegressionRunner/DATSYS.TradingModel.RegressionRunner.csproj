@@ -82,6 +82,10 @@
       <Project>{EBDAFC68-3F83-4C9E-811D-5031B0AF42DA}</Project>
       <Name>DATSYS.TradingModel.MessageBrokerImplementation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DATSYS.TradingModel.MoneyManager\DATSYS.TradingModel.MoneyManager.csproj">
+      <Project>{EF13B272-E3DA-4341-A78F-B7EDA79928ED}</Project>
+      <Name>DATSYS.TradingModel.MoneyManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DATSYS.TradingModel.RegressionStats\DATSYS.TradingModel.RegressionStats.csproj">
       <Project>{570B40CB-BBE6-481F-A3B7-1286DDAD226D}</Project>
       <Name>DATSYS.TradingModel.RegressionStats</Name>

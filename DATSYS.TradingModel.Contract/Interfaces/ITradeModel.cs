@@ -8,11 +8,14 @@ namespace DATSYS.TradingModel.Contract.Interfaces
 
         void SetHandlers(IMarketBarDataManager barDataMgr, 
                          IMarketTickDataManager tickDataMgr,
-                         IMarketDailyBarDataManager dailyBarDataManager);
+                         IMarketDailyBarDataManager dailyBarDataManager,
+                         IStrategyMoneyManager moneyManager);
 
         void Reset();
 
         bool IsDaily { get; }
+
+        
 
     }
 }

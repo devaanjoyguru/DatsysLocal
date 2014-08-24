@@ -19,7 +19,7 @@ namespace DATSYS.TradingModel.RegressionTests
         public void AddRegressionJob()
         {
             var job = _dataManager.AddRegressionJob("FGBL", new DateTime(2012, 2, 28), new DateTime(2012, 3, 3), 30,
-                "StrategySevenBar", false);
+                "StrategySevenBar", false,"TestRegression");
             Assert.True(job>0);
         }
 

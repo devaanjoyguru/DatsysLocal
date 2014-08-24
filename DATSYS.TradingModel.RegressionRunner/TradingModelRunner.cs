@@ -7,6 +7,7 @@ using DATSYS.TradingModel.Contract.Interfaces;
 using DATSYS.TradingModel.MarketDataContracts.Entities;
 using DATSYS.TradingModel.MarketDataImplementation;
 using DATSYS.TradingModel.RegressionRunner.Entities;
+using DATSYS.TradingModel.MoneyManager;
 
 namespace DATSYS.TradingModel.RegressionRunner
 {
@@ -15,6 +16,7 @@ namespace DATSYS.TradingModel.RegressionRunner
         private ITradeModel m_TradingModel;
         private BarDataHandler m_BarDataHandler;
         private TickDataHandler m_TickDataHandler;
+        private IMoneyManager m_moneyMgr;
         private DailyPriceBarDataHandler m_DailyBarDataHandler;
         private TradingModelSignalState m_SignalState;
         private TradeInstruction m_TradeEntryInstruction;
@@ -54,7 +56,8 @@ namespace DATSYS.TradingModel.RegressionRunner
             EntrySignalReceived callBackEntrySignalReceived,
             TradePositionCloseReceived callBackTradePositionCloseReceived,
             RegressionJobFinished callbackRegressionJobFinished,
-            TickDataUpdateReceived callbackTickDataUpdateReceived)
+            TickDataUpdateReceived callbackTickDataUpdateReceived,
+            IMoneyManager moneyManager)
         {
             m_ref = reference;
             m_TradingModel = tradeModel;
@@ -64,6 +67,7 @@ namespace DATSYS.TradingModel.RegressionRunner
             m_jobId = jobId;
             m_instrumentCode = instrumentCode;
             m_RegressionEndDate = regressionEndDate;
+            m_moneyMgr = moneyManager;
 
             CallbackOnEntrySignalReceived = callBackEntrySignalReceived;
             CallbackTradePositionCloseReceived = callBackTradePositionCloseReceived;
@@ -73,7 +77,7 @@ namespace DATSYS.TradingModel.RegressionRunner
 
             m_SignalState=TradingModelSignalState.TradeSignal;
 
-            m_TradingModel.SetHandlers(barDataHandler,tickDataHandler,dailyPriceBarDataHandler);
+            m_TradingModel.SetHandlers(barDataHandler,tickDataHandler,dailyPriceBarDataHandler,moneyManager);
 
             m_BarDataHandler.BarDataCreatedCompleted += OnBarDataCreatedCompleted;
             m_TickDataHandler.OnRealTimeTickDataUpdate += OnRealTimeTickDataUpdate;
