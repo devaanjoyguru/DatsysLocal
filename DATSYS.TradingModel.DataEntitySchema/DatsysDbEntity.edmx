@@ -154,6 +154,8 @@
           <Property Name="LastTradedQty" Type="real" />
           <Property Name="Settlement" Type="real" />
           <Property Name="TotalTradedQty" Type="real" />
+          <Property Name="PriceDataTime" Type="time" />
+          <Property Name="PriceDataDateTime" Type="datetime" />
         </EntityType>
         <Function Name="RegressionJob_Insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="instrumentCode" Type="varchar" Mode="In" />
@@ -250,6 +252,8 @@
           <Property Name="LastTradedQty" Type="Single" />
           <Property Name="Settlement" Type="Single" />
           <Property Name="TotalTradedQty" Type="Single" />
+          <Property Type="Time" Name="PriceDataTime" Precision="7" />
+          <Property Type="DateTime" Name="PriceDataDateTime" Precision="3" />
         </EntityType>
         <ComplexType Name="BestAsk_SelectByDate_Result">
           <Property Type="Single" Name="BestAsk" Nullable="true" />
@@ -392,6 +396,8 @@
           <EntitySetMapping Name="StagingTickDatas">
             <EntityTypeMapping TypeName="DatsystemsModel.StagingTickData">
               <MappingFragment StoreEntitySet="StagingTickData">
+                <ScalarProperty Name="PriceDataDateTime" ColumnName="PriceDataDateTime" />
+                <ScalarProperty Name="PriceDataTime" ColumnName="PriceDataTime" />
                 <ScalarProperty Name="PriceDataId" ColumnName="PriceDataId" />
                 <ScalarProperty Name="PriceDate" ColumnName="PriceDate" />
                 <ScalarProperty Name="InstrumentCode" ColumnName="InstrumentCode" />

@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace DATSYS.TradingModel.MarketDataImplementation
            m_barDataType = barDataType;
        }
 
-       public void Add(long timestamp, double? tickValue)
+       public void Add(long timestamp, double? tickValue, DateTime datatime)
        {
            
                lock (m_lock)
@@ -52,7 +53,7 @@ namespace DATSYS.TradingModel.MarketDataImplementation
 
                    //Add the tick data to the bar point
                    m_BarDataPoints[m_barCount].TryAdd(timestamp,
-                                                      new BarDataPoint {DataPoint = tickValue, Timestamp = timestamp});
+                                                      new BarDataPoint {DataPoint = tickValue, Timestamp = timestamp, TimestampDateTime = datatime});
 
                    //Check if the current timestamp is equal to or greater than trigger timestamp
                    if (timestamp >= m_triggerTimestamp)
@@ -61,7 +62,9 @@ namespace DATSYS.TradingModel.MarketDataImplementation
                        {
                            DataPoints = m_BarDataPoints[m_barCount].Select(x => x.Value).ToList(),
                            StartTimestamp = m_initTimestamp,
-                           EndTimestamp = timestamp
+                           EndTimestamp = timestamp,
+                           StartTime = m_BarDataPoints[m_barCount].First().Value.TimestampDateTime,
+                           EndTime = m_BarDataPoints[m_barCount].Last().Value.TimestampDateTime
                        };
 
                        //Add the bar

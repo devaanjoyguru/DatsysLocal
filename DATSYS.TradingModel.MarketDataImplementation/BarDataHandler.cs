@@ -42,23 +42,23 @@ namespace DATSYS.TradingModel.MarketDataImplementation
                 m_TickDataHandler.PauseReceive();
 
                 if (tickData.Ask > 0 && tickData.Ask < 2147483648)
-                    m_SimpleBarDataHandlers[BarDataType.Ask].Add(tickData.Timestamp, tickData.Ask);
+                    m_SimpleBarDataHandlers[BarDataType.Ask].Add(tickData.Timestamp, tickData.Ask, tickData.DataDateTime);
 
                 if (tickData.AskQty > 0 && tickData.AskQty < 2147483648)
-                    m_SimpleBarDataHandlers[BarDataType.AskQty].Add(tickData.Timestamp, tickData.AskQty);
+                    m_SimpleBarDataHandlers[BarDataType.AskQty].Add(tickData.Timestamp, tickData.AskQty, tickData.DataDateTime);
 
                 if (tickData.Bid > 0 && tickData.Bid < 2147483648)
-                    m_SimpleBarDataHandlers[BarDataType.Bid].Add(tickData.Timestamp, tickData.Bid);
+                    m_SimpleBarDataHandlers[BarDataType.Bid].Add(tickData.Timestamp, tickData.Bid, tickData.DataDateTime);
 
                 if (tickData.BidQty > 0 && tickData.BidQty < 2147483648)
-                    m_SimpleBarDataHandlers[BarDataType.BidQty].Add(tickData.Timestamp, tickData.BidQty);
+                    m_SimpleBarDataHandlers[BarDataType.BidQty].Add(tickData.Timestamp, tickData.BidQty, tickData.DataDateTime);
 
                 if (tickData.SettlementPrice > 0 && tickData.SettlementPrice < 2147483648)
                     m_SimpleBarDataHandlers[BarDataType.SettlementPrice].Add(tickData.Timestamp,
-                                                                             tickData.SettlementPrice);
+                                                                             tickData.SettlementPrice, tickData.DataDateTime);
 
                 if (tickData.SettlementQty > 0 && tickData.SettlementQty < 2147483648)
-                    m_SimpleBarDataHandlers[BarDataType.SettlementQty].Add(tickData.Timestamp, tickData.SettlementQty);
+                    m_SimpleBarDataHandlers[BarDataType.SettlementQty].Add(tickData.Timestamp, tickData.SettlementQty, tickData.DataDateTime);
 
                 m_TickDataHandler.ResumeReceive();
             }

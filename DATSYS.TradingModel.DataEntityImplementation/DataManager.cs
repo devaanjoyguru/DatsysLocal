@@ -23,8 +23,8 @@ namespace DATSYS.TradingModel.DataEntityImplementation
                         stagingdata.InstrumentCode.Equals(instrumentCode)
                         && stagingdata.BestAsk < _badDataMaxLimit
                         && stagingdata.BestAskQty < _badDataMaxLimit
-                        && stagingdata.Settlement < _badDataMaxLimit
-                        && stagingdata.LastTraded < _badDataMaxLimit
+                        //&& stagingdata.Settlement < _badDataMaxLimit
+                       // && stagingdata.LastTraded < _badDataMaxLimit
                         && stagingdata.BestBid < _badDataMaxLimit
                         && stagingdata.BestBidQty < _badDataMaxLimit
                     select new MarketTickData
@@ -37,7 +37,8 @@ namespace DATSYS.TradingModel.DataEntityImplementation
                             InstrumentCode = stagingdata.InstrumentCode,
                             SettlementPrice = stagingdata.LastTraded,
                             SettlementQty = stagingdata.LastTradedQty,
-                            Timestamp = stagingdata.Timestamp.Value
+                            Timestamp = stagingdata.Timestamp.Value,
+                            DataDateTime =(stagingdata.PriceDataDateTime.HasValue) ? stagingdata.PriceDataDateTime.Value : new DateTime(1900,1,1)
                         }).OrderBy(x=>x.Timestamp).ToList();
         }
 

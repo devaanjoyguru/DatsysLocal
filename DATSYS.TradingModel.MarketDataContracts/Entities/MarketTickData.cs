@@ -26,6 +26,8 @@ namespace DATSYS.TradingModel.MarketDataContracts.Entities
 
         public DateTime DataDate { get; set; }
 
+        public DateTime DataDateTime { get; set; }
+
         public override string ToString()
         {
             return string.Format("Instrument:{6},Timestamp:{7},Ask:{0},AskQty:{1},Best:{2},BestQty:{3},Price:{4},Qty:{5}", Ask, AskQty, Bid, BidQty, SettlementPrice, SettlementQty, "Futures", Timestamp);

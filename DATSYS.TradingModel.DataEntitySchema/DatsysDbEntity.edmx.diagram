@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="44bcb191876943239ed684db7e91eaa6" Name="Diagram1" ZoomLevel="98">
+      <Diagram DiagramId="44bcb191876943239ed684db7e91eaa6" Name="Diagram1" ZoomLevel="93">
         <EntityTypeShape EntityType="DatsystemsModel.Bar" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DatsystemsModel.DailyPriceBar" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DatsystemsModel.StagingTickData" Width="2" PointX="4.75" PointY="0.75" IsExpanded="true" />

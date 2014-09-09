@@ -18,7 +18,7 @@ namespace DATSYS.TradingModel.Implementation.Models
         private IMarketTickDataManager TICKDATA;
         private IMarketDailyBarDataManager DAILYBARDATA;
         private IStrategyMoneyManager MONEYMANAGER;
-        private int lots = 10;
+        private int lots = 10;//TODO:
 
         public bool EntrySignal()
         {
@@ -241,7 +241,7 @@ namespace DATSYS.TradingModel.Implementation.Models
                         Stop = Parameters.StopPriceLong.Value, 
                         Target = ask.Value + Parameters.TargetTicks.Value
                     };
-
+                
                 tradePosition.Lots = MONEYMANAGER.GetLotSize(tradePosition);
 
                 return tradePosition;

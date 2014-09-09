@@ -35,5 +35,7 @@ namespace DATSYS.TradingModel.DataEntitySchema
         public Nullable<float> LastTradedQty { get; set; }
         public Nullable<float> Settlement { get; set; }
         public Nullable<float> TotalTradedQty { get; set; }
+        public Nullable<System.TimeSpan> PriceDataTime { get; set; }
+        public Nullable<System.DateTime> PriceDataDateTime { get; set; }
     }
 }

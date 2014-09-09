@@ -128,6 +128,9 @@ namespace DATSYS.TradingModel.RegressionRunner
                         //add the bar index for entry position
                         m_TradeEntryInstruction.BarIndex = m_CurrentBarIndex;
                         m_SignalState = TradingModelSignalState.TradeExit;
+
+                        //add Trade entry to the money manager
+                        m_moneyMgr.AddTradeEntry(m_TradeEntryInstruction);
                     }
                 }
 
@@ -140,6 +143,9 @@ namespace DATSYS.TradingModel.RegressionRunner
                     {
                         //log the bar index for exit signal
                         m_TradeExitInstruction.BarIndex = m_CurrentBarIndex;
+
+                        //add Trade exit to the money manager
+                        m_moneyMgr.AddTradeExit(m_TradeExitInstruction);
 
                         //unsubscribe from all events
                         m_BarDataHandler.BarDataCreatedCompleted -= OnBarDataCreatedCompleted;
